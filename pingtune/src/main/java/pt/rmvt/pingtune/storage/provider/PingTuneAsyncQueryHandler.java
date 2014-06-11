@@ -35,7 +35,7 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
         mDAOListeners = new HashMap<Object, IDataAccessObject.IDAOListener>();
     }
 
-    public void startQuery (Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public void startQuery(Uri uri, String[] projection, String selection, String[] selectionArgs,
                             String orderBy, IDataAccessObject.IReadListener readListener) {
 
         String cookie = getCookie();
@@ -51,6 +51,13 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
     }
 
     // TODO: startInsert
+    public void startInsert(Uri uri, ContentValues initialValues,
+                            IDataAccessObject.ICreateListener createListener) {
+
+        String cookie = getCookie();
+        mDAOListeners.put(cookie,createListener);
+        super.startInsert(INSERT_TOKEN,cookie,uri,initialValues);
+    }
 
     // TODO: startUpdate
 

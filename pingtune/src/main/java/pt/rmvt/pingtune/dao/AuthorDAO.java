@@ -30,8 +30,11 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void create(Author obj, ICreateListener<Long> createListener) {
-
-
+        assert obj != null && createListener != null && mAsyncQueryHandler != null;
+        mAsyncQueryHandler.startInsert(
+                AuthorColumns.CONTENT_URI,
+                getContentValues(obj),
+                createListener);
     }
 
     @Override @Deprecated
@@ -41,8 +44,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void read(Long key, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && key != null;
-
+        assert mAsyncQueryHandler != null && key != null && readListener != null;
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -53,7 +55,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     }
 
     public void readByName(String name, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null;
+        assert mAsyncQueryHandler != null && readListener != null;
 
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,

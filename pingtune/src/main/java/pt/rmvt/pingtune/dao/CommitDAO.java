@@ -60,4 +60,23 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     public ContentValues getContentValues(Commit obj) {
         return null;
     }
+
+    // DAO LISTENERS
+
+    public static interface IReadCommitListener extends IReadListener<Commit> {
+        public void onReadFinished(Commit commit);
+    }
+
+    public static interface ICreateCommitListener extends ICreateListener<Long> {
+        public void onCreateFinished(Long pk);
+    }
+
+    public static interface IUpdateCommitListener extends IUpdateListener {
+        public void onUpdateFinished(Integer rows);
+    }
+
+    public static interface IDeleteCommitListener extends IDeleteListener {
+        public void onDeleteFinished(Integer rows);
+    }
+
 }

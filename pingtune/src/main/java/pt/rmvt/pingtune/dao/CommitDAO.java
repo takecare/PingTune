@@ -64,7 +64,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
         values.put(CommitColumns.URL,obj.getUrl());
         values.put(CommitColumns.HTMLURL,obj.getHtmlUrl());
         values.put(CommitColumns.PARENTSHA,obj.getParentSha());
-        //values.put(CommitColumns.AUTHORID,obj.getAuthor().getId()); // FIXME
+        values.put(CommitColumns.AUTHORNAME,obj.getAuthor().getName());
         return values;
     }
 

@@ -75,4 +75,19 @@ public class CommitContentValues extends AbstractContentValues {
         return this;
     }
 
+    public CommitContentValues putAuthoridNull() {
+        mContentValues.putNull(CommitColumns.AUTHORID);
+        return this;
+    }
+
+    public CommitContentValues putAuthorname(String value) {
+        mContentValues.put(CommitColumns.AUTHORNAME, value);
+        return this;
+    }
+
+    public CommitContentValues putAuthornameNull() {
+        mContentValues.putNull(CommitColumns.AUTHORNAME);
+        return this;
+    }
+
 }

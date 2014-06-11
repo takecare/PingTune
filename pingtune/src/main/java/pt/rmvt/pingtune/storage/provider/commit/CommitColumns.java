@@ -18,6 +18,7 @@ public interface CommitColumns extends BaseColumns {
     String HTMLURL = "htmlurl";
     String PARENTSHA = "parentsha";
     String AUTHORID = "authorid";
+    String AUTHORNAME = "authorname";
 
     String DEFAULT_ORDER = _ID;
 
@@ -28,7 +29,8 @@ public interface CommitColumns extends BaseColumns {
             URL,
             HTMLURL,
             PARENTSHA,
-            AUTHORID
+            AUTHORID,
+            AUTHORNAME
     };
     // @formatter:on
 }

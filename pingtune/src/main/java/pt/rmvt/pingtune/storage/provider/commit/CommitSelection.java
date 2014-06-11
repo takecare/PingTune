@@ -142,4 +142,19 @@ public class CommitSelection extends AbstractSelection<CommitSelection> {
         addLessThanOrEquals(CommitColumns.AUTHORID, value);
         return this;
     }
+
+    public CommitSelection authorname(String... value) {
+        addEquals(CommitColumns.AUTHORNAME, value);
+        return this;
+    }
+
+    public CommitSelection authornameNot(String... value) {
+        addNotEquals(CommitColumns.AUTHORNAME, value);
+        return this;
+    }
+
+    public CommitSelection authornameLike(String... value) {
+        addLike(CommitColumns.AUTHORNAME, value);
+        return this;
+    }
 }

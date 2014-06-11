@@ -21,9 +21,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
 import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
 import pt.rmvt.pingtune.storage.provider.author.AuthorSelection;
+import pt.rmvt.pingtune.storage.provider.commit.CommitColumns;
+import pt.rmvt.pingtune.storage.provider.commit.CommitContentValues;
+import pt.rmvt.pingtune.storage.provider.commit.CommitCursor;
+import pt.rmvt.pingtune.storage.provider.commit.CommitSelection;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -57,6 +62,8 @@ public class MainActivity extends ActionBarActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        testProvider();
 
     }
 
@@ -167,11 +174,40 @@ public class MainActivity extends ActionBarActivity {
                 where.args(),
                 null);
 
+        String name = null;
+
         if (cursor != null && cursor.getCount()>0) {
             cursor.moveToFirst();
-            Log.d(LOG_TAG,"name="+cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
+            name = cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME));
+            Log.d(LOG_TAG,"name="+name);
         } else {
-            Log.d(LOG_TAG,"query returned no results");
+            Log.d(LOG_TAG,"author query returned no results");
+        }
+
+        //
+
+        CommitContentValues commitContentValues = new CommitContentValues();
+        commitContentValues.putAuthorname(name);
+        commitContentValues.putHtmlurl("html url");
+        commitContentValues.putUrl("url");
+        commitContentValues.putSha("super rad sha");
+        commitContentValues.putParentsha("parent sha");
+        getContentResolver().insert(commitContentValues.uri(), commitContentValues.values());
+
+        CommitSelection commitSelection = new CommitSelection();
+        commitSelection.authorname(name);
+        Cursor commitCursor = getContentResolver().query(
+                CommitColumns.CONTENT_URI,
+                CommitColumns.FULL_PROJECTION,
+                commitSelection.sel(),
+                commitSelection.args(),
+                null);
+
+        if (commitCursor != null && commitCursor.getCount()>0) {
+            commitCursor.moveToFirst();
+            Log.d(LOG_TAG,"sha="+commitCursor.getString(commitCursor.getColumnIndex(CommitColumns.SHA)));
+        } else {
+            Log.d(LOG_TAG,"commit query returned no results");
         }
     }
 

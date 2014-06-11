@@ -56,4 +56,13 @@ public class CommitCursor extends AbstractCursor {
     public long getAuthorid() {
         return getLongOrNull(CommitColumns.AUTHORID);
     }
+
+    /**
+     * Get the {@code authorname} value.
+     * Can be {@code null}.
+     */
+    public String getAuthorname() {
+        Integer index = getCachedColumnIndexOrThrow(CommitColumns.AUTHORNAME);
+        return getString(index);
+    }
 }

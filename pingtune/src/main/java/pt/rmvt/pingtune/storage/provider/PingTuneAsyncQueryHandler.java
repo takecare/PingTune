@@ -78,28 +78,32 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
 
     @Override
     protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-        IDataAccessObject.IReadListener listener = (IDataAccessObject.IReadListener) mDAOListeners.get(cookie);
+        IDataAccessObject.IReadListener listener =
+                (IDataAccessObject.IReadListener) mDAOListeners.get(cookie);
         listener.onReadFinished(cursor);
         mDAOListeners.remove(cookie);
     }
 
     @Override
     protected void onInsertComplete(int token, Object cookie, Uri uri) {
-        IDataAccessObject.ICreateListener listener = (IDataAccessObject.ICreateListener) mDAOListeners.get(cookie);
+        IDataAccessObject.ICreateListener listener =
+                (IDataAccessObject.ICreateListener) mDAOListeners.get(cookie);
         listener.onCreateFinished(uri.getLastPathSegment());
         mDAOListeners.remove(cookie);
     }
 
     @Override
     protected void onUpdateComplete(int token, Object cookie, int result) {
-        IDataAccessObject.IUpdateListener listener = (IDataAccessObject.IUpdateListener) mDAOListeners.get(cookie);
+        IDataAccessObject.IUpdateListener listener =
+                (IDataAccessObject.IUpdateListener) mDAOListeners.get(cookie);
         listener.onUpdateFinished(result);
         mDAOListeners.remove(cookie);
     }
 
     @Override
     protected void onDeleteComplete(int token, Object cookie, int result) {
-        IDataAccessObject.IDeleteListener listener = (IDataAccessObject.IDeleteListener) mDAOListeners.get(cookie);
+        IDataAccessObject.IDeleteListener listener =
+                (IDataAccessObject.IDeleteListener) mDAOListeners.get(cookie);
         listener.onDeleteFinished(result);
         mDAOListeners.remove(cookie);
     }

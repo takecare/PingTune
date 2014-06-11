@@ -63,7 +63,12 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
         super.startUpdate(UPDATE_TOKEN,cookie,uri,values,selection,selectionArgs);
     }
 
-    // TODO: startDelete
+    public void startDelete(Uri uri, String selection, String[] selectionArgs,
+                            IDataAccessObject.IDeleteListener deleteListener) {
+        String cookie = getCookie();
+        mDAOListeners.put(cookie,deleteListener);
+        super.startDelete(DELETE_TOKEN,cookie,uri,selection,selectionArgs);
+    }
 
     private String getCookie() {
         return (new Random()).nextLong() + String.valueOf(System.currentTimeMillis());

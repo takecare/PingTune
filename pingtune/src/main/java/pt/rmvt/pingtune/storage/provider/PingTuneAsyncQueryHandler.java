@@ -9,7 +9,15 @@ package pt.rmvt.pingtune.storage.provider;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 
-public class PingTuneAsyncQueryHandler extends AsyncQueryHandler{
+import java.util.HashMap;
+
+import pt.rmvt.pingtune.dao.IDataAccessObject;
+
+public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
+
+    public static final String LOG_TAG = "PingTuneAsyncQueryHandler";
+
+    private HashMap<Object,IDataAccessObject.IDAOListener> mDAOListeners;
 
     public PingTuneAsyncQueryHandler(ContentResolver cr) {
         super(cr);

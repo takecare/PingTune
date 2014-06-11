@@ -33,19 +33,23 @@ public interface IDataAccessObject<T, PK> {
     public ContentValues getContentValues(T obj);
 
 
-    public static interface ICreateListener<PK> {
+    public static interface IDAOListener {
+        // enables us to "group" all listeners
+    }
+
+    public static interface ICreateListener<PK> extends IDAOListener {
         // PK since we intend to return the PK of the recently persisted object
     }
 
-    public static interface IReadListener<T> {
+    public static interface IReadListener<T> extends IDAOListener {
         // T since we intend to have the listener pass the recently read object
     }
 
-    public static interface IUpdateListener<Integer> {
+    public static interface IUpdateListener<Integer> extends IDAOListener {
         // Integer since we'll return the number of affected rows
     }
 
-    public static interface IDeleteListener<Integer> {
+    public static interface IDeleteListener<Integer> extends IDAOListener {
         // Integer since we'll return the number of affected rows
     }
 }

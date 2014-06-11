@@ -14,17 +14,48 @@ public class PingTuneFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public static final String LOG_TAG = "PingTuneFragmentPagerAdapter";
 
+    public static final int NUM_FRAGMENTS = 2;
+    public static final int COMMIT_LIST_FRAGMENT_POS = 0;
+    public static final int ABOUT_FRAGMENT_POS = 1;
+
+    private CommitListFragment mCommitListFragment;
+    private AboutFragment mAboutFragment;
+
     public PingTuneFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
+
+        //mCommitListFragment = CommitListFragment.newInstance();
+        //mAboutFragment = AboutFragment.newInstance();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        switch (position) {
+            case COMMIT_LIST_FRAGMENT_POS:
+                return mCommitListFragment;
+            case ABOUT_FRAGMENT_POS:
+                return mAboutFragment;
+            default:
+                return null;
+        }
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return NUM_FRAGMENTS;
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case COMMIT_LIST_FRAGMENT_POS:
+                return null; // TODO
+            case ABOUT_FRAGMENT_POS:
+                return null; // TODO;
+            default:
+                return null;
+        }
+    }
+
+
 }

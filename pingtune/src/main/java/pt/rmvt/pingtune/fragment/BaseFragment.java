@@ -6,6 +6,13 @@
  */
 package pt.rmvt.pingtune.fragment;
 
-public class BaseFragment {
+import android.support.v4.app.Fragment;
 
+public abstract class BaseFragment extends Fragment {
+
+    public static final String LOG_TAG = "BaseFragment";
+
+    public static final String KEY_ARGUMENT_FRAGMENT_TITLE = "KEY_ARGUMENT_FRAGMENT_TITLE";
+
+    public abstract CharSequence getTitle();
 }

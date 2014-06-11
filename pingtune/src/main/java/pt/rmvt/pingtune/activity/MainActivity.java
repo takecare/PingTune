@@ -1,3 +1,9 @@
+/**
+ * @date Jun 11, 2014
+ * @author Rui Teixeira, rui@vazteixeira.org
+ * @copyright Copyright 2014 Rui Teixeira. All rights reserved.
+ * PingTune - pt.rmvt.pingtune.activity
+ */
 package pt.rmvt.pingtune.activity;
 
 import java.util.Locale;
@@ -34,7 +40,6 @@ import pt.rmvt.pingtune.storage.provider.commit.CommitContentValues;
 import pt.rmvt.pingtune.storage.provider.commit.CommitCursor;
 import pt.rmvt.pingtune.storage.provider.commit.CommitSelection;
 
-
 public class MainActivity extends ActionBarActivity {
 
     public static final String LOG_TAG = "MainActivity";
@@ -67,8 +72,8 @@ public class MainActivity extends ActionBarActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        testProvider();
-        testAsyncQuery();
+        //testProvider();
+        //testAsyncQuery();
     }
 
 

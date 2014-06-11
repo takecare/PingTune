@@ -9,6 +9,7 @@ package pt.rmvt.pingtune.storage.provider;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 import java.util.HashMap;
@@ -35,10 +36,18 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
     }
 
     public void startQuery (Uri uri, String[] projection, String selection, String[] selectionArgs,
-                            String orderBy) {
+                            String orderBy, IDataAccessObject.IReadListener readListener) {
 
-        // TODO create our own: int token, Object cookie
-
+        String cookie = getCookie();
+        mDAOListeners.put(cookie,readListener);
+        super.startQuery(
+                QUERY_TOKEN,
+                cookie,
+                uri,
+                projection,
+                selection,
+                selectionArgs,
+                orderBy);
     }
 
     // TODO: startInsert
@@ -51,4 +60,18 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
         return (new Random()).nextLong() + String.valueOf(System.currentTimeMillis());
     }
 
+    // LISTENERS
+
+    @Override
+    protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+        IDataAccessObject.IReadListener listener = (IDataAccessObject.IReadListener) mDAOListeners.get(cookie);
+        listener.onReadFinished(cursor);
+        mDAOListeners.remove(cookie);
+    }
+
+    // TODO: insert listener
+
+    // TODO: update listener
+
+    // TODO: delete listener
 }

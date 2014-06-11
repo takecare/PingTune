@@ -10,11 +10,19 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 
 import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
+import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
 
 public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     public static final String LOG_TAG = "AuthorDAO";
+
+    private PingTuneAsyncQueryHandler mAsyncQueryHandler;
+
+    public AuthorDAO(ContentResolver resolver) {
+        mAsyncQueryHandler = new PingTuneAsyncQueryHandler(resolver);
+    }
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Author obj) {
@@ -34,7 +42,27 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void read(Long key, IReadListener<Author> readListener) {
+        assert mAsyncQueryHandler != null;
 
+        mAsyncQueryHandler.startQuery(
+                AuthorColumns.CONTENT_URI,
+                null,
+                key != null ? AuthorColumns._ID + "=?" : null,
+                key != null ? new String[]{Long.toString(key)} : null,
+                null,
+                readListener);
+    }
+
+    public void readByName(String name, IReadListener<Author> readListener) {
+        assert mAsyncQueryHandler != null;
+
+        mAsyncQueryHandler.startQuery(
+                AuthorColumns.CONTENT_URI,
+                null,
+                name != null ? AuthorColumns.NAME + "=?" : null,
+                name != null ? new String[]{name} : null,
+                null,
+                readListener);
     }
 
     @Override @Deprecated
@@ -71,7 +99,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     // DAO LISTENERS
 
     public static interface IReadAuthorListener extends IReadListener<Author> {
-        @Override public void onReadFinished(Author author);
+        //@Override public void onReadFinished(Author author);
     }
 
     public static interface ICreateAuthorListener extends ICreateListener<Long> {

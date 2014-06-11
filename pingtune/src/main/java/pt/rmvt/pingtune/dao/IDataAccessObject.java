@@ -51,7 +51,7 @@ public interface IDataAccessObject<T, PK> {
 
         // if we were to implement an asyncqueryhandler for each of our models this would be very
         // useful...
-        public void onReadFinished(T obj);
+        //public void onReadFinished(T obj);
 
         public void onReadFinished(Cursor cursor);
     }

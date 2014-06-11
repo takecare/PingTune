@@ -71,7 +71,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     // DAO LISTENERS
 
     public static interface IReadCommitListener extends IReadListener<Commit> {
-        @Override public void onReadFinished(Commit commit);
+        //@Override public void onReadFinished(Commit commit);
     }
 
     public static interface ICreateCommitListener extends ICreateListener<Long> {

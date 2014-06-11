@@ -1,5 +1,8 @@
 package pt.rmvt.pingtune.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.model.Commit;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -146,6 +151,24 @@ public class MainActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+
+
+    //
+    public HashMap<Author,List<Commit>> group(List<Commit> commits) {
+
+        HashMap<Author,List<Commit>> commitsByAuthor = new HashMap<Author, List<Commit>>();
+
+        for (Commit commit : commits) {
+
+            if (!commitsByAuthor.containsKey(commit.getAuthor())) {
+                commitsByAuthor.put(commit.getAuthor(),new ArrayList<Commit>());
+            } else {
+                commitsByAuthor.get(commit.getAuthor()).add(commit);
+            }
+        }
+
+        return commitsByAuthor;
     }
 
 }

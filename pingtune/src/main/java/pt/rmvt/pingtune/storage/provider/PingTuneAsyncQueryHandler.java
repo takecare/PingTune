@@ -85,7 +85,12 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
         mDAOListeners.remove(cookie);
     }
 
-    // TODO: update listener
+    @Override
+    protected void onUpdateComplete(int token, Object cookie, int result) {
+        IDataAccessObject.IUpdateListener listener = (IDataAccessObject.IUpdateListener) mDAOListeners.get(cookie);
+        listener.onUpdateFinished(result);
+        mDAOListeners.remove(cookie);
+    }
 
     // TODO: delete listener
 }

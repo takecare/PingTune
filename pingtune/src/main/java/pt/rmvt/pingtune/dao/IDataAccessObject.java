@@ -10,8 +10,8 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-// T: type/model -- eg. Author
-// PK: model's PK (in the db) -- eg. String, Integer, etc.
+// generic  T: type/model -- eg. Author
+// generic PK: model's PK (in the db) -- eg. String, Integer, etc.
 
 public interface IDataAccessObject<T, PK> {
 

@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -31,6 +32,7 @@ import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.dao.AuthorDAO;
 import pt.rmvt.pingtune.dao.IDataAccessObject;
+import pt.rmvt.pingtune.fragment.BaseFragment;
 import pt.rmvt.pingtune.fragment.PingTuneFragmentPagerAdapter;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
@@ -43,7 +45,7 @@ import pt.rmvt.pingtune.storage.provider.commit.CommitContentValues;
 import pt.rmvt.pingtune.storage.provider.commit.CommitCursor;
 import pt.rmvt.pingtune.storage.provider.commit.CommitSelection;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
 
     public static final String LOG_TAG = "MainActivity";
 
@@ -57,13 +59,33 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        // actionbar config
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        //setSupportProgressBarVisibility(true);
+
+        mViewPager.setOnPageChangeListener(this);
 
         mFragmentPagerAdapter = new PingTuneFragmentPagerAdapter(
                 getSupportFragmentManager(),
                 getResources());
         mViewPager.setAdapter(mFragmentPagerAdapter);
+
+        // add tabs...
+        for (int i=0; i<PingTuneFragmentPagerAdapter.NUM_FRAGMENTS; i++) {
+
+            getSupportActionBar().addTab(
+                    getSupportActionBar().newTab()
+                    .setText(((BaseFragment)mFragmentPagerAdapter.getItem(i)).getTitle())
+                    .setTabListener(this));
+        }
 
         //testProvider();
         //testAsyncQuery();
@@ -89,38 +111,31 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
+    // actionbar tab listener
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        mViewPager.setCurrentItem(tab.getPosition());
     }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+
+    // viewpager change listener
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+    @Override
+    public void onPageSelected(int position) {
+        getSupportActionBar().setSelectedNavigationItem(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {}
+
+    // ***** **** *** ** *
 
     private void testProvider() {
         AuthorContentValues values = new AuthorContentValues();

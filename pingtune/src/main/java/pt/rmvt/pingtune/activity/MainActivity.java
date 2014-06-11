@@ -36,6 +36,9 @@ import pt.rmvt.pingtune.fragment.BaseFragment;
 import pt.rmvt.pingtune.fragment.PingTuneFragmentPagerAdapter;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
+import pt.rmvt.pingtune.network.PingTuneRequestManager;
+import pt.rmvt.pingtune.network.requests.CommitRequest;
+import pt.rmvt.pingtune.network.requests.PingTuneRequest;
 import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
 import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
@@ -89,6 +92,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //testProvider();
         //testAsyncQuery();
+        testRequest();
     }
 
 
@@ -207,4 +211,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 });
     }
 
+    private void testRequest() {
+
+        PingTuneRequestManager requestManager = new PingTuneRequestManager();
+        requestManager.setup(this);
+
+        CommitRequest request = new CommitRequest();
+        requestManager.executeRequest(
+                request,
+                new PingTuneRequest.PingTuneResponseListener<Commit>() {
+                    @Override
+                    public void onResponse(Commit obj) {
+                        Log.d(LOG_TAG,"RECEIVED RESPONSE");
+                    }
+                },
+                new PingTuneRequest.PingTuneErrorListener() {
+                    @Override
+                    public void onError(String errorMessage, int statusCode) {
+                        Log.d(LOG_TAG,"ERROR");
+                    }
+                }
+        );
+
+    }
 }

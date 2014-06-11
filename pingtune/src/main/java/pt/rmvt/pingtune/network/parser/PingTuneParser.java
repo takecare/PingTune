@@ -6,6 +6,8 @@
  */
 package pt.rmvt.pingtune.network.parser;
 
-public class PingTuneParser {
+public abstract class PingTuneParser<T,R> {
+
+    public abstract T parse(R response);
 
 }

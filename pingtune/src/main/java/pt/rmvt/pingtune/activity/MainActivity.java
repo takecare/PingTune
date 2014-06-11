@@ -1,4 +1,4 @@
-package pt.rmvt.pingtune;
+package pt.rmvt.pingtune.activity;
 
 import java.util.Locale;
 
@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import pt.rmvt.pingtune.R;
 
 
 public class MainActivity extends ActionBarActivity {

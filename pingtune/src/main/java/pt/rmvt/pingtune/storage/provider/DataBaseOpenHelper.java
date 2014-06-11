@@ -38,8 +38,8 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
             + CommitColumns.URL + " TEXT, "
             + CommitColumns.HTMLURL + " TEXT, "
             + CommitColumns.PARENTSHA + " TEXT, "
-            + CommitColumns.AUTHORID + " INTEGER NOT NULL, "
-            + "FOREIGN KEY(" + CommitColumns.AUTHORID + ") REFERENCES " + AuthorColumns.TABLE_NAME
+            + CommitColumns.AUTHORID + " INTEGER, "
+            + " FOREIGN KEY(" + CommitColumns.AUTHORID + ") REFERENCES " + AuthorColumns.TABLE_NAME
                 +"(" + AuthorColumns._ID + ")"
             + " );";
 

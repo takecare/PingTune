@@ -9,7 +9,7 @@ import pt.rmvt.pingtune.storage.provider.PingTuneProvider;
  * Columns for the {@code author} table.
  */
 public interface AuthorColumns extends BaseColumns {
-    String TABLE_NAME = "author";
+    String TABLE_NAME = "authorTable";
     Uri CONTENT_URI = Uri.parse(PingTuneProvider.CONTENT_URI_BASE + "/" + TABLE_NAME);
 
     String _ID = BaseColumns._ID;

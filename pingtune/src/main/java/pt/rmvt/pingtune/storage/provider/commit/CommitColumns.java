@@ -9,7 +9,7 @@ import pt.rmvt.pingtune.storage.provider.PingTuneProvider;
  * Columns for the {@code commit} table.
  */
 public interface CommitColumns extends BaseColumns {
-    String TABLE_NAME = "commit";
+    String TABLE_NAME = "commitTable";
     Uri CONTENT_URI = Uri.parse(PingTuneProvider.CONTENT_URI_BASE + "/" + TABLE_NAME);
 
     String _ID = BaseColumns._ID;

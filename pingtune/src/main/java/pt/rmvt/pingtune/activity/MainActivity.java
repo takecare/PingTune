@@ -2,6 +2,7 @@ package pt.rmvt.pingtune.activity;
 
 import java.util.Locale;
 
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,9 +21,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
+import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
+import pt.rmvt.pingtune.storage.provider.author.AuthorSelection;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public static final String LOG_TAG = "MainActivity";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -51,8 +58,27 @@ public class MainActivity extends ActionBarActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        Auth
+        AuthorContentValues values = new AuthorContentValues();
+        values.putEmail("rui@vazteixeira.org");
+        values.putName("Rui Teixeira");
+        values.putDateNull();
+        getContentResolver().insert(values.uri(),values.values());
 
+        AuthorSelection where = new AuthorSelection();
+        where.email("rui@vazteixeira.org");
+        Cursor cursor = getContentResolver().query(
+                AuthorColumns.CONTENT_URI,
+                AuthorColumns.FULL_PROJECTION,
+                where.sel(),
+                where.args(),
+                null);
+
+        if (cursor != null && cursor.getCount()>0) {
+            cursor.moveToFirst();
+            Log.d(LOG_TAG,"name="+cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
+        } else {
+            Log.d(LOG_TAG,"query returned no results");
+        }
     }
 
 

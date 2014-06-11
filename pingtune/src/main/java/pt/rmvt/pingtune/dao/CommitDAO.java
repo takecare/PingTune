@@ -30,7 +30,11 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void create(Commit obj, ICreateListener<Long> createListener) {
-
+        assert obj != null && createListener != null && mAsyncQueryHandler != null;
+        mAsyncQueryHandler.startInsert(
+                CommitColumns.CONTENT_URI,
+                getContentValues(obj),
+                createListener);
     }
 
     @Override @Deprecated
@@ -64,8 +68,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     }
 
     public void readBySha(String sha, IReadListener<Commit> readListener) {
-        assert mAsyncQueryHandler != null && sha != null;
-
+        assert mAsyncQueryHandler != null && sha != null && readListener != null;
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,

@@ -10,6 +10,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 
 import pt.rmvt.pingtune.model.Commit;
+import pt.rmvt.pingtune.storage.provider.commit.CommitColumns;
 
 public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
@@ -58,7 +59,13 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public ContentValues getContentValues(Commit obj) {
-        return null;
+        ContentValues values = new ContentValues();
+        values.put(CommitColumns.SHA,obj.getSha());
+        values.put(CommitColumns.URL,obj.getUrl());
+        values.put(CommitColumns.HTMLURL,obj.getHtmlUrl());
+        values.put(CommitColumns.PARENTSHA,obj.getParentSha());
+        //values.put(CommitColumns.AUTHORID,obj.getAuthor().getId()); // FIXME
+        return values;
     }
 
     // DAO LISTENERS

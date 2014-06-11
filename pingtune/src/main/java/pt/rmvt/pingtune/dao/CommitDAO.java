@@ -13,6 +13,8 @@ import pt.rmvt.pingtune.model.Commit;
 
 public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
+    public static final String LOG_TAG = "CommitDAO";
+
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Commit obj) {

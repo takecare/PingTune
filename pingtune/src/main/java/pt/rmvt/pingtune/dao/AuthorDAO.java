@@ -13,6 +13,8 @@ import pt.rmvt.pingtune.model.Author;
 
 public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
+    public static final String LOG_TAG = "AuthorDAO";
+
     @Override @Deprecated
     public Long create(ContentResolver resolver, Author obj) {
         return null;

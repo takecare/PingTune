@@ -58,27 +58,6 @@ public class MainActivity extends ActionBarActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        AuthorContentValues values = new AuthorContentValues();
-        values.putEmail("rui@vazteixeira.org");
-        values.putName("Rui Teixeira");
-        values.putDateNull();
-        getContentResolver().insert(values.uri(),values.values());
-
-        AuthorSelection where = new AuthorSelection();
-        where.email("rui@vazteixeira.org");
-        Cursor cursor = getContentResolver().query(
-                AuthorColumns.CONTENT_URI,
-                AuthorColumns.FULL_PROJECTION,
-                where.sel(),
-                where.args(),
-                null);
-
-        if (cursor != null && cursor.getCount()>0) {
-            cursor.moveToFirst();
-            Log.d(LOG_TAG,"name="+cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
-        } else {
-            Log.d(LOG_TAG,"query returned no results");
-        }
     }
 
 
@@ -169,6 +148,30 @@ public class MainActivity extends ActionBarActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
+        }
+    }
+
+    private void testProvider() {
+        AuthorContentValues values = new AuthorContentValues();
+        values.putEmail("rui@vazteixeira.org");
+        values.putName("Rui Teixeira");
+        values.putDateNull();
+        getContentResolver().insert(values.uri(),values.values());
+
+        AuthorSelection where = new AuthorSelection();
+        where.email("rui@vazteixeira.org");
+        Cursor cursor = getContentResolver().query(
+                AuthorColumns.CONTENT_URI,
+                AuthorColumns.FULL_PROJECTION,
+                where.sel(),
+                where.args(),
+                null);
+
+        if (cursor != null && cursor.getCount()>0) {
+            cursor.moveToFirst();
+            Log.d(LOG_TAG,"name="+cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
+        } else {
+            Log.d(LOG_TAG,"query returned no results");
         }
     }
 

@@ -10,12 +10,18 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 
 import pt.rmvt.pingtune.model.Commit;
+import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.commit.CommitColumns;
 
 public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     public static final String LOG_TAG = "CommitDAO";
 
+    private PingTuneAsyncQueryHandler mAsyncQueryHandler;
+
+    public CommitDAO(ContentResolver resolver) {
+        mAsyncQueryHandler = new PingTuneAsyncQueryHandler(resolver);
+    }
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Commit obj) {
@@ -34,7 +40,39 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void read(Long key, IReadListener<Commit> readListener) {
+        assert mAsyncQueryHandler != null;
 
+        mAsyncQueryHandler.startQuery(
+                CommitColumns.CONTENT_URI,
+                null,
+                key != null ? CommitColumns._ID + "=?" : null,
+                key != null ? new String[]{Long.toString(key)} : null,
+                null,
+                readListener);
+    }
+
+    public void readByAuthorName(String name, IReadListener<Commit> readListener) {
+        assert mAsyncQueryHandler != null && name != null;
+
+        mAsyncQueryHandler.startQuery(
+                CommitColumns.CONTENT_URI,
+                null,
+                CommitColumns.AUTHORNAME + "=?",
+                new String[]{name},
+                null,
+                readListener);
+    }
+
+    public void readBySha(String sha, IReadListener<Commit> readListener) {
+        assert mAsyncQueryHandler != null && sha != null;
+
+        mAsyncQueryHandler.startQuery(
+                CommitColumns.CONTENT_URI,
+                null,
+                CommitColumns.AUTHORNAME + "=?",
+                new String[]{sha},
+                null,
+                readListener);
     }
 
     @Override @Deprecated
@@ -71,6 +109,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     // DAO LISTENERS
 
     public static interface IReadCommitListener extends IReadListener<Commit> {
+        // see IDataAccessObject.IReadListener<T>
         //@Override public void onReadFinished(Commit commit);
     }
 

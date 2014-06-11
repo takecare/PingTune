@@ -12,7 +12,6 @@ import android.content.ContentValues;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
-import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
 
 public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
@@ -42,13 +41,13 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void read(Long key, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null;
+        assert mAsyncQueryHandler != null && key != null;
 
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
-                key != null ? AuthorColumns._ID + "=?" : null,
-                key != null ? new String[]{Long.toString(key)} : null,
+                AuthorColumns._ID + "=?",
+                new String[]{Long.toString(key)},
                 null,
                 readListener);
     }
@@ -99,6 +98,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     // DAO LISTENERS
 
     public static interface IReadAuthorListener extends IReadListener<Author> {
+        // see IDataAccessObject.IReadListener<T>
         //@Override public void onReadFinished(Author author);
     }
 

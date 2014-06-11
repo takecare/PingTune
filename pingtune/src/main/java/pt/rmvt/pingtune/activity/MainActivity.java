@@ -21,7 +21,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.dao.AuthorDAO;
+import pt.rmvt.pingtune.dao.IDataAccessObject;
+import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
+import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
 import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
 import pt.rmvt.pingtune.storage.provider.author.AuthorSelection;
@@ -64,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         testProvider();
-
+        testAsyncQuery();
     }
 
 
@@ -209,6 +213,23 @@ public class MainActivity extends ActionBarActivity {
         } else {
             Log.d(LOG_TAG,"commit query returned no results");
         }
+    }
+
+    private void testAsyncQuery() {
+        AuthorDAO authorDAO = new AuthorDAO(getContentResolver());
+        authorDAO.readByName(
+                "Rui Teixeira",
+                new IDataAccessObject.IReadListener<Author>() {
+                    @Override
+                    public void onReadFinished(Cursor cursor) {
+                        if (cursor != null && cursor.getCount()>0) {
+                            cursor.moveToFirst();
+                            Log.d(LOG_TAG,"async name="+cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
+                        } else {
+                            Log.d(LOG_TAG,"async author query returned no results");
+                        }
+                    }
+                });
     }
 
 }

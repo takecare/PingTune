@@ -64,18 +64,18 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     // DAO LISTENERS
 
     public static interface IReadAuthorListener extends IReadListener<Author> {
-        public void onReadFinished(Author author);
+        @Override public void onReadFinished(Author author);
     }
 
     public static interface ICreateAuthorListener extends ICreateListener<Long> {
-        public void onCreateFinished(Long pk);
+        @Override public void onCreateFinished(Long pk);
     }
 
     public static interface IUpdateAuthorListener extends IUpdateListener {
-        public void onUpdateFinished(Integer rows);
+        //public void onUpdateFinished(Integer rows);
     }
 
     public static interface IDeleteAuthorListener extends IDeleteListener {
-        public void onDeleteFinished(Integer rows);
+        //public void onDeleteFinished(Integer rows);
     }
 }

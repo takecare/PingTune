@@ -64,11 +64,11 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     // DAO LISTENERS
 
     public static interface IReadCommitListener extends IReadListener<Commit> {
-        public void onReadFinished(Commit commit);
+        @Override public void onReadFinished(Commit commit);
     }
 
     public static interface ICreateCommitListener extends ICreateListener<Long> {
-        public void onCreateFinished(Long pk);
+        @Override public void onCreateFinished(Long pk);
     }
 
     public static interface IUpdateCommitListener extends IUpdateListener {

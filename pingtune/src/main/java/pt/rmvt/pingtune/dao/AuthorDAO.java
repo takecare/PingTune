@@ -10,6 +10,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 
 import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
 
 public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
@@ -22,6 +23,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void create(Author obj, ICreateListener<Long> createListener) {
+
 
     }
 
@@ -58,7 +60,12 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public ContentValues getContentValues(Author obj) {
-        return null; // TODO
+        ContentValues values = new ContentValues();
+        values.put(AuthorColumns.NAME,obj.getName());
+        values.put(AuthorColumns.EMAIL,obj.getEmail());
+        if (obj.getTextDate() != null)
+            values.put(AuthorColumns.DATE,obj.getTextDate());
+        return values;
     }
 
     // DAO LISTENERS

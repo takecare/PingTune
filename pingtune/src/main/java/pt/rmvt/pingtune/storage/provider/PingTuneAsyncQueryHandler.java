@@ -50,7 +50,6 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
                 orderBy);
     }
 
-    // TODO: startInsert
     public void startInsert(Uri uri, ContentValues initialValues,
                             IDataAccessObject.ICreateListener createListener) {
 
@@ -76,7 +75,12 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
         mDAOListeners.remove(cookie);
     }
 
-    // TODO: insert listener
+    @Override
+    protected void onInsertComplete(int token, Object cookie, Uri uri) {
+        IDataAccessObject.ICreateListener listener = (IDataAccessObject.ICreateListener) mDAOListeners.get(cookie);
+        listener.onCreateFinished(uri.getLastPathSegment());
+        mDAOListeners.remove(cookie);
+    }
 
     // TODO: update listener
 

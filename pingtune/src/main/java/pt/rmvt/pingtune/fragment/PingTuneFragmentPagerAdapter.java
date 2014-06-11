@@ -7,11 +7,16 @@
 package pt.rmvt.pingtune.fragment;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class PingTuneFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public static final String LOG_TAG = "PingTuneFragmentPagerAdapter";
+
+    public PingTuneFragmentPagerAdapter(FragmentManager fm) {
+        super(fm);
+    }
 
     @Override
     public Fragment getItem(int position) {

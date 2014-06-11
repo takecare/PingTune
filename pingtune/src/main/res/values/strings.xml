@@ -6,9 +6,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="commitListFragmentTile">Commit List</string>
+    <string name="commitListFragmentTitle">Commit List</string>
     <string name="aboutFragmentTitle">About</string>
-    <string name="detailFragmentTile">Detail</string>
+    <string name="detailFragmentTitle">Detail</string>
 
 
 </resources>

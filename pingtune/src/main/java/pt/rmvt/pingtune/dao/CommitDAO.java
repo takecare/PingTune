@@ -6,6 +6,56 @@
  */
 package pt.rmvt.pingtune.dao;
 
-public class CommitDAO {
+import android.content.ContentResolver;
+import android.content.ContentValues;
 
+import pt.rmvt.pingtune.model.Commit;
+
+public class CommitDAO implements IDataAccessObject<Commit,Long> {
+
+
+    @Override @Deprecated
+    public Long create(ContentResolver resolver, Commit obj) {
+        return null;
+    }
+
+    @Override
+    public void create(Commit obj, ICreateListener<Long> createListener) {
+
+    }
+
+    @Override @Deprecated
+    public Commit read(ContentResolver resolver, Long key) {
+        return null;
+    }
+
+    @Override
+    public void read(Long key, IReadListener<Commit> readListener) {
+
+    }
+
+    @Override @Deprecated
+    public int update(ContentResolver resolver, Commit obj) {
+        return 0;
+    }
+
+    @Override
+    public void update(Commit obj, IUpdateListener updateListener) {
+
+    }
+
+    @Override @Deprecated
+    public int delete(ContentResolver resolver, Long key) {
+        return 0;
+    }
+
+    @Override
+    public void delete(Long key, IDeleteListener deleteListener) {
+
+    }
+
+    @Override
+    public ContentValues getContentValues(Commit obj) {
+        return null;
+    }
 }

@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/darker_gray" >
+    android:layout_height="match_parent" >
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/author_row_height"
+        android:layout_margin="@dimen/author_row_margin"
+        android:padding="@dimen/author_row_padding">
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/activityDetailAvatarImageView"
+            android:layout_width="@dimen/author_row_avatar_size"
+            android:layout_height="@dimen/author_row_avatar_size"
+            android:layout_alignParentLeft="true"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/row_author_image_view" />
+
+        <TextView
+            android:id="@+id/activityDetailNameTextView"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/author_row_text_margin"
+            android:textSize="@dimen/author_row_title_text_size"
+            tools:text="@string/app_name"/>
+
+     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/activityDetailCardinalityLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -38,7 +38,7 @@ public class PingTuneRequestManager {
     }
 
     public void executeRequest(PingTuneRequest request) {
-        assert mIsStarted && request != null;
+        if (BuildConfig.DEBUG && (!mIsStarted || request == null)) throw new RuntimeException();
         sRequestQueue.add(request.getRequest());
     }
 

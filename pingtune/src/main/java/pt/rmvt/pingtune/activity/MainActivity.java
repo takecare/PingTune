@@ -95,10 +95,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     .setTabListener(this));
         }
 
-        //testProvider();
-        //testAsyncQuery();
-        //testCardinalityRequest();
-
         PingTuneDataManager.getInstance().setup(getApplicationContext());
         PingTuneDataManager.getInstance().update(getApplicationContext());
     }
@@ -146,99 +142,5 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public void onPageScrollStateChanged(int state) {}
-
-    // ***** **** *** ** *
-
-    private void testProvider() {
-        AuthorContentValues values = new AuthorContentValues();
-        values.putEmail("rui@vazteixeira.org");
-        values.putName("Rui Teixeira");
-        values.putDateNull();
-        getContentResolver().insert(values.uri(),values.values());
-
-        AuthorSelection where = new AuthorSelection();
-        where.email("rui@vazteixeira.org");
-        Cursor cursor = getContentResolver().query(
-                AuthorColumns.CONTENT_URI,
-                AuthorColumns.FULL_PROJECTION,
-                where.sel(),
-                where.args(),
-                null);
-
-        String name = null;
-
-        if (cursor != null && cursor.getCount()>0) {
-            cursor.moveToFirst();
-            name = cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME));
-            Log.d(LOG_TAG,"name="+name);
-        } else {
-            Log.d(LOG_TAG,"author query returned no results");
-        }
-
-        //
-
-        CommitContentValues commitContentValues = new CommitContentValues();
-        commitContentValues.putAuthorname(name);
-        commitContentValues.putHtmlurl("html url");
-        commitContentValues.putUrl("url");
-        commitContentValues.putSha("super rad sha");
-        commitContentValues.putParentsha("parent sha");
-        getContentResolver().insert(commitContentValues.uri(), commitContentValues.values());
-
-        CommitSelection commitSelection = new CommitSelection();
-        commitSelection.authorname(name);
-        Cursor commitCursor = getContentResolver().query(
-                CommitColumns.CONTENT_URI,
-                CommitColumns.FULL_PROJECTION,
-                commitSelection.sel(),
-                commitSelection.args(),
-                null);
-
-        if (commitCursor != null && commitCursor.getCount()>0) {
-            commitCursor.moveToFirst();
-            Log.d(LOG_TAG,"sha="+commitCursor.getString(commitCursor.getColumnIndex(CommitColumns.SHA)));
-        } else {
-            Log.d(LOG_TAG,"commit query returned no results");
-        }
-    }
-
-    private void testAsyncQuery() {
-        AuthorDAO authorDAO = new AuthorDAO(getContentResolver());
-        authorDAO.readByName(
-                "Rui Teixeira",
-                new IDataAccessObject.IReadListener<Author>() {
-                    @Override
-                    public void onReadFinished(Cursor cursor) {
-                        if (cursor != null && cursor.getCount() > 0) {
-                            cursor.moveToFirst();
-                            Log.d(LOG_TAG, "async name=" + cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
-                        } else {
-                            Log.d(LOG_TAG, "async author query returned no results");
-                        }
-                    }
-                }
-        );
-    }
-
-    private void testCardinalityRequest() {
-
-        CardinalityRequest request = new CardinalityRequest("https://api.github.com/users/ko1/starred{/owner}{/repo}");
-        PingTuneRequestManager requestManager = new PingTuneRequestManager();
-        requestManager.setup(this);
-        requestManager.executeRequest(
-                request,
-                new PingTuneRequest.PingTuneResponseListener<Integer>() {
-                    @Override
-                    public void onResponse(Integer obj) {
-                        Log.d(LOG_TAG,"cardinality = "+obj);
-                    }
-                },
-                new PingTuneRequest.PingTuneErrorListener() {
-                    @Override
-                    public void onError(String errorMessage, int statusCode) {
-                        Log.d(LOG_TAG,"cardinality error!");
-                    }
-                });
-    }
 
 }

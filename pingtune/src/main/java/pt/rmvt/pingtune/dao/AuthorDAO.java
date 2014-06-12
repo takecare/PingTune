@@ -9,6 +9,7 @@ package pt.rmvt.pingtune.dao;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 
+import pt.rmvt.pingtune.BuildConfig;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
@@ -30,7 +31,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void create(Author obj, ICreateListener<Long> createListener) {
-        assert obj != null && mAsyncQueryHandler != null;
+        if (BuildConfig.DEBUG && (obj == null || mAsyncQueryHandler == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startInsert(
                 AuthorColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -44,7 +46,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void read(Long key, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && key != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || key == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -55,7 +58,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     }
 
     public void readByName(String name, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null;
+        if (BuildConfig.DEBUG && mAsyncQueryHandler == null) throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -66,7 +69,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     }
 
     public void readAll(IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && readListener != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || readListener == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -83,7 +87,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void update(Author obj, IUpdateListener updateListener) {
-        assert mAsyncQueryHandler != null && obj != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || obj == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startUpdate(
                 AuthorColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -99,7 +104,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-        assert mAsyncQueryHandler != null;
+        if (BuildConfig.DEBUG && mAsyncQueryHandler == null) throw new RuntimeException();
         mAsyncQueryHandler.startDelete(
                 AuthorColumns.CONTENT_URI,
                 key != null ? AuthorColumns._ID + "=?" : null,

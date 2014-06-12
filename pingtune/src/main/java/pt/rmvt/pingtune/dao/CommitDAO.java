@@ -9,6 +9,7 @@ package pt.rmvt.pingtune.dao;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 
+import pt.rmvt.pingtune.BuildConfig;
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
 import pt.rmvt.pingtune.storage.provider.commit.CommitColumns;
@@ -30,7 +31,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void create(Commit obj, ICreateListener<Long> createListener) {
-        assert obj != null && mAsyncQueryHandler != null;
+        if (BuildConfig.DEBUG && (obj == null || mAsyncQueryHandler == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startInsert(
                 CommitColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -44,7 +46,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void read(Long key, IReadListener<Commit> readListener) {
-        assert mAsyncQueryHandler != null && readListener != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || readListener == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,
@@ -55,7 +58,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     }
 
     public void readByAuthorName(String name, IReadListener<Commit> readListener) {
-        assert mAsyncQueryHandler != null && name != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || name == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,
@@ -66,7 +70,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     }
 
     public void readBySha(String sha, IReadListener<Commit> readListener) {
-        assert mAsyncQueryHandler != null && sha != null && readListener != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || sha == null || readListener == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,
@@ -77,7 +82,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     }
 
     public void readAll(IReadListener<Commit> readListener) {
-        assert mAsyncQueryHandler != null && readListener != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || readListener == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,
@@ -94,7 +100,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void update(Commit obj, IUpdateListener updateListener) {
-        assert mAsyncQueryHandler != null && obj != null;
+        if (BuildConfig.DEBUG && (mAsyncQueryHandler == null || obj == null))
+            throw new RuntimeException();
         mAsyncQueryHandler.startUpdate(
                 CommitColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -110,7 +117,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-        assert mAsyncQueryHandler != null;
+        if (BuildConfig.DEBUG && mAsyncQueryHandler== null) throw new RuntimeException();
         mAsyncQueryHandler.startDelete(
                 CommitColumns.CONTENT_URI,
                 key != null ? CommitColumns._ID + "=?" : null,

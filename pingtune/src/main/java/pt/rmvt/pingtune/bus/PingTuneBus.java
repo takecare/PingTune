@@ -12,6 +12,20 @@ public class PingTuneBus {
 
     public static final String LOG_TAG = "PingTuneBus";
 
+    public static final int UPDATE_TYPE_DB = 0;
+    public static final int UPDATE_TYPE_NETWORK = 1;
+
+    public static enum UpdateType {
+        DB_UPDATE (UPDATE_TYPE_DB),
+        NETWORK_UPDATE (UPDATE_TYPE_NETWORK);
+
+        private final int mUpdateType;
+        UpdateType(int updateType) {
+            mUpdateType = updateType;
+        }
+
+    }
+
     private static Bus sBus;
 
     private PingTuneBus() {

@@ -8,10 +8,13 @@ package pt.rmvt.pingtune.fragment;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.adapter.AuthorAdapter;
+import pt.rmvt.pingtune.bus.PingTuneBus;
 import pt.rmvt.pingtune.model.Author;
 
 public class CommitListFragment extends BaseFragment {
@@ -52,6 +56,8 @@ public class CommitListFragment extends BaseFragment {
 
         mAuthorAdapter = new AuthorAdapter(getActivity(),new ArrayList<Author>());
 
+        PingTuneBus.getBusInstance().register(this);
+
         return view;
     }
 
@@ -60,5 +66,9 @@ public class CommitListFragment extends BaseFragment {
         return getArguments().getString(KEY_ARGUMENT_FRAGMENT_TITLE);
     }
 
+    @Subscribe
+    public void update(PingTuneBus.UpdateType updateType) {
+        Log.d(LOG_TAG,"received update: "+updateType);
 
+    }
 }

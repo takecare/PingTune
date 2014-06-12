@@ -35,6 +35,7 @@ import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.dao.AuthorDAO;
 import pt.rmvt.pingtune.dao.IDataAccessObject;
+import pt.rmvt.pingtune.datamanager.PingTuneDataManager;
 import pt.rmvt.pingtune.fragment.BaseFragment;
 import pt.rmvt.pingtune.fragment.PingTuneFragmentPagerAdapter;
 import pt.rmvt.pingtune.model.Author;
@@ -95,7 +96,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //testProvider();
         //testAsyncQuery();
-        testRequest();
+
+        PingTuneDataManager.getInstance().setup(getApplicationContext());
+        PingTuneDataManager.getInstance().updateFromNetwork();
     }
 
 
@@ -204,56 +207,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 new IDataAccessObject.IReadListener<Author>() {
                     @Override
                     public void onReadFinished(Cursor cursor) {
-                        if (cursor != null && cursor.getCount()>0) {
+                        if (cursor != null && cursor.getCount() > 0) {
                             cursor.moveToFirst();
-                            Log.d(LOG_TAG,"async name="+cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
+                            Log.d(LOG_TAG, "async name=" + cursor.getString(cursor.getColumnIndex(AuthorColumns.NAME)));
                         } else {
-                            Log.d(LOG_TAG,"async author query returned no results");
+                            Log.d(LOG_TAG, "async author query returned no results");
                         }
-                    }
-                });
-    }
-
-    private void testRequest() {
-
-        PingTuneRequestManager requestManager = new PingTuneRequestManager();
-        requestManager.setup(this);
-
-        CommitRequest request = new CommitRequest();
-        requestManager.executeRequest(
-                request,
-                new PingTuneRequest.PingTuneResponseListener<List<Commit>>() {
-                    @Override
-                    public void onResponse(List<Commit> list) {
-                        Log.d(LOG_TAG,"RECEIVED RESPONSE: "+list.size());
-                        HashMap<Author,List<Commit>> commitsByAuthor = group(list);
-                        for (Author author : commitsByAuthor.keySet()) {
-                            Log.d(LOG_TAG,author.getName());
-                        }
-                    }
-                },
-                new PingTuneRequest.PingTuneErrorListener() {
-                    @Override
-                    public void onError(String errorMessage, int statusCode) {
-                        Log.d(LOG_TAG,"ERROR");
                     }
                 }
         );
     }
 
-    public HashMap<Author,List<Commit>> group(List<Commit> commits) {
-
-        HashMap<Author,List<Commit>> commitsByAuthor = new HashMap<Author, List<Commit>>();
-
-        for (Commit commit : commits) {
-
-            if (!commitsByAuthor.containsKey(commit.getAuthor())) {
-                commitsByAuthor.put(commit.getAuthor(),new ArrayList<Commit>());
-            } else {
-                commitsByAuthor.get(commit.getAuthor()).add(commit);
-            }
-        }
-
-        return commitsByAuthor;
-    }
 }

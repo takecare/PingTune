@@ -10,6 +10,7 @@ public class NetworkInfo {
 
     public static final String GITHUB_API_ENDPOINT = "https://api.github.com/";
     public static final String GITHUB_API_COMMITS_REQUEST_FORMAT = "repos/%s/%s/commits";
+    public static final String GITHUB_API_COMMITS_LAST_SHA_REQUEST_FORMAT = "repos/%s/%s/commits?last_sha=%s";
 
     public static final String GITHUB_RUBY_USER = "ruby";
     public static final String GITHUB_RUBY_REPO = "ruby";

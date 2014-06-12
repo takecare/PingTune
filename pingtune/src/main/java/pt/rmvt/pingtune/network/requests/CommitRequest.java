@@ -75,6 +75,4 @@ public class CommitRequest extends PingTuneRequest<List<Commit>,JSONArray> {
                 });
     }
 
-
-
 }

@@ -17,7 +17,6 @@ import pt.rmvt.pingtune.network.requests.PingTuneRequest;
 public class PingTuneRequestManager {
 
     private static RequestQueue sRequestQueue;
-
     private static ImageLoader sImageLoader;
     private static PingTuneImageCache sImageCache;
 

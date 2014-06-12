@@ -24,12 +24,10 @@ public class CardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
     private static String sCARDINALITY_REQUEST_API_URL;
 
     public CardinalityRequest(String url) {
-        this(new CardinalityParser());
-        sCARDINALITY_REQUEST_API_URL = cleanUpUrl(url);
-    }
+        super(new CardinalityParser());
 
-    private CardinalityRequest(PingTuneParser<Integer, JSONArray> parser) {
-        super(parser);
+        sCARDINALITY_REQUEST_API_URL = cleanUpUrl(url);
+
         mJsonRequest = new JsonArrayRequest(
                 sCARDINALITY_REQUEST_API_URL,
                 new Response.Listener<JSONArray>() {

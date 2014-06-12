@@ -41,6 +41,7 @@ import pt.rmvt.pingtune.fragment.PingTuneFragmentPagerAdapter;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.network.PingTuneRequestManager;
+import pt.rmvt.pingtune.network.requests.CardinalityRequest;
 import pt.rmvt.pingtune.network.requests.CommitRequest;
 import pt.rmvt.pingtune.network.requests.PingTuneRequest;
 import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
@@ -96,6 +97,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //testProvider();
         //testAsyncQuery();
+
+        testCardinalityRequest();
 
         PingTuneDataManager.getInstance().setup(getApplicationContext());
         PingTuneDataManager.getInstance().updateFromNetwork();
@@ -216,6 +219,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     }
                 }
         );
+    }
+
+    private void testCardinalityRequest() {
+
+        CardinalityRequest request = new CardinalityRequest("https://api.github.com/users/ko1/starred{/owner}{/repo}");
+        PingTuneRequestManager requestManager = new PingTuneRequestManager();
+        requestManager.setup(this);
+        requestManager.executeRequest(
+                request,
+                new PingTuneRequest.PingTuneResponseListener<Integer>() {
+                    @Override
+                    public void onResponse(Integer obj) {
+                        Log.d(LOG_TAG,"cardinality = "+obj);
+                    }
+                },
+                new PingTuneRequest.PingTuneErrorListener() {
+                    @Override
+                    public void onError(String errorMessage, int statusCode) {
+                        Log.d(LOG_TAG,"cardinality error!");
+                    }
+                });
     }
 
 }

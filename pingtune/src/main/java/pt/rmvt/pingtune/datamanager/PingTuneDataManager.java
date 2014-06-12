@@ -7,6 +7,8 @@
 package pt.rmvt.pingtune.datamanager;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -14,6 +16,7 @@ import com.android.volley.toolbox.ImageLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import pt.rmvt.pingtune.bus.PingTuneBus;
 import pt.rmvt.pingtune.model.Author;
@@ -49,15 +52,16 @@ public class PingTuneDataManager {
         mRequestManager.setup(context);
     }
 
-    public void updateFromNetwork() {
+    public void updateFromNetwork(Context context) {
 
         // TODO 1. check if network connection
-
-        // TODO 2. launch request(s)
-        fetchCommitsFromNetwork(null);
+        if (isNetworkConnectionAvailable(context)) {
+            fetchCommitsFromNetwork(null);
+        } else {
+            fetchCommitsFromStorage();
+        }
 
         // TODO 3. update db (through provider)
-
     }
 
     // -
@@ -89,6 +93,9 @@ public class PingTuneDataManager {
                     }
                 }
         );
+    }
+
+    private void fetchCommitsFromStorage() {
 
     }
 
@@ -106,5 +113,23 @@ public class PingTuneDataManager {
             }
         }
         return commitsByAuthor;
+    }
+
+    private boolean isNetworkConnectionAvailable(Context context) {
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // request one at a time so we don't request network info we might not need
+
+        NetworkInfo wifiNetworkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetworkInfo != null && wifiNetworkInfo.getState() == NetworkInfo.State.CONNECTED) {
+            return true;
+        }
+
+        NetworkInfo mobileNetworkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobileNetworkInfo != null && mobileNetworkInfo.getState() == NetworkInfo.State.CONNECTED) {
+            return true;
+        }
+
+        return false;
     }
 }

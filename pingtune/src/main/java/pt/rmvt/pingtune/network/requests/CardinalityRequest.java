@@ -19,6 +19,8 @@ public class CardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
 
     public static final String LOG_TAG = "FollowingRequest";
 
+    private static final String CLEAN_UP_URL_REGEX = "(\\{[^\\}]*\\})";
+
     private static String sCARDINALITY_REQUEST_API_URL;
 
     public CardinalityRequest(String url) {
@@ -51,8 +53,7 @@ public class CardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
     }
 
     private String cleanUpUrl(String url) {
-        // TODO: remove everything enclosed in {}
-        return url;
+        return url.replaceAll(CLEAN_UP_URL_REGEX, "");
     }
 
 }

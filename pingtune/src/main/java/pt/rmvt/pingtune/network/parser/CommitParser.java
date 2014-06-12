@@ -48,7 +48,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
                 commits.add(parseCommit(response.getJSONObject(i)));
         } catch (JSONException e) {
             Log.e(LOG_TAG, "#parse(JSONObject): " + e.getMessage());
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return commits;
@@ -86,14 +86,14 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 name = getNameFromCommit(obj.getJSONObject(COMMIT_JSON_KEY));
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         else if (obj.has(AUTHOR_JSON_KEY)) {
             try {
                 name = getLoginFromAuthor(obj.getJSONObject(AUTHOR_JSON_KEY));
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
@@ -110,7 +110,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
                 name = getNameFromCommitCommitter(obj.getJSONObject(COMMITTER_JSON_KEY));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return name;
@@ -121,7 +121,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
         try {
             name = obj.getString(NAME_JSON_KEY);
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return name;
     }
@@ -131,7 +131,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
         try {
             name = obj.getString(NAME_JSON_KEY);
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return name;
     }
@@ -141,7 +141,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
         try {
             login = obj.getString(LOGIN_JSON_KEY);
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return login;
     }
@@ -152,7 +152,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = getAvatarUrlFromAuthor(obj.getJSONObject(AUTHOR_JSON_KEY));
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -164,7 +164,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = obj.getString(AVATAR_URL_JSON_KEY);
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -176,7 +176,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = getFollowersUrlFromAuthor(obj.getJSONObject(AUTHOR_JSON_KEY));
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -188,7 +188,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = obj.getString(FOLLOWERS_URL_JSON_KEY);
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -200,7 +200,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = getFollowingUrlFromAuthor(obj.getJSONObject(AUTHOR_JSON_KEY));
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -212,7 +212,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = obj.getString(FOLLOWING_URL_JSON_KEY);
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -224,7 +224,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = getStarredUrlFromAuthor(obj.getJSONObject(AUTHOR_JSON_KEY));
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -236,7 +236,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
             try {
                 url = obj.getString(STARRED_URL_JSON_KEY);
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return url;
@@ -249,7 +249,7 @@ public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
         try {
             sha = obj.getString(SHA_JSON_KEY);
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return sha;
     }

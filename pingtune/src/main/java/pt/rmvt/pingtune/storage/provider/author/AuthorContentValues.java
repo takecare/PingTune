@@ -48,6 +48,50 @@ public class AuthorContentValues extends AbstractContentValues {
     }
 
 
+    public AuthorContentValues putAvatarurl(String value) {
+        mContentValues.put(AuthorColumns.AVATARURL, value);
+        return this;
+    }
+
+    public AuthorContentValues putAvatarurlNull() {
+        mContentValues.putNull(AuthorColumns.AVATARURL);
+        return this;
+    }
+
+
+    public AuthorContentValues putFollowersurl(String value) {
+        mContentValues.put(AuthorColumns.FOLLOWERSURL, value);
+        return this;
+    }
+
+    public AuthorContentValues putFolowersurlNull() {
+        mContentValues.putNull(AuthorColumns.FOLLOWERSURL);
+        return this;
+    }
+
+
+    public AuthorContentValues putFollowingurl(String value) {
+        mContentValues.put(AuthorColumns.FOLLOWINGURL, value);
+        return this;
+    }
+
+    public AuthorContentValues putFolowingurlNull() {
+        mContentValues.putNull(AuthorColumns.FOLLOWINGURL);
+        return this;
+    }
+
+
+    public AuthorContentValues putStarredurl(String value) {
+        mContentValues.put(AuthorColumns.STARREDURL, value);
+        return this;
+    }
+
+    public AuthorContentValues putStarredurlNull() {
+        mContentValues.putNull(AuthorColumns.STARREDURL);
+        return this;
+    }
+
+
     public AuthorContentValues putDate(String value) {
         mContentValues.put(AuthorColumns.DATE, value);
         return this;

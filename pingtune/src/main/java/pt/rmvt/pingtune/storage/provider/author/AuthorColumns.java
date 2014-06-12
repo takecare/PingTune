@@ -15,6 +15,10 @@ public interface AuthorColumns extends BaseColumns {
     String _ID = BaseColumns._ID;
     String NAME = "name";
     String EMAIL = "email";
+    String AVATARURL = "avatarurl";
+    String FOLLOWERSURL = "followersurl";
+    String FOLLOWINGURL = "followingurl";
+    String STARREDURL = "starredurl";
     String DATE = "date";
 
     String DEFAULT_ORDER = _ID;
@@ -24,6 +28,10 @@ public interface AuthorColumns extends BaseColumns {
             _ID,
             NAME,
             EMAIL,
+            AVATARURL,
+            FOLLOWERSURL,
+            FOLLOWINGURL,
+            STARREDURL,
             DATE
     };
     // @formatter:on

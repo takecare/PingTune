@@ -29,6 +29,10 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
             + AuthorColumns.NAME + " TEXT, "
             + AuthorColumns.EMAIL + " TEXT, "
             + AuthorColumns.DATE + " TEXT "
+            + AuthorColumns.AVATARURL + " TEXT "
+            + AuthorColumns.FOLLOWERSURL + " TEXT "
+            + AuthorColumns.FOLLOWINGURL + " TEXT "
+            + AuthorColumns.STARREDURL + " TEXT "
             + " );";
 
     private static final String SQL_CREATE_TABLE_COMMIT = "CREATE TABLE IF NOT EXISTS "

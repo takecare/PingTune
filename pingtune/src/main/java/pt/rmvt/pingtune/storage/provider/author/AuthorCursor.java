@@ -33,6 +33,42 @@ public class AuthorCursor extends AbstractCursor {
     }
 
     /**
+     * Get the {@code avatarurl} value.
+     * Can be {@code null}.
+     */
+    public String getAvatarurl() {
+        Integer index = getCachedColumnIndexOrThrow(AuthorColumns.AVATARURL);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code followersurl} value.
+     * Can be {@code null}.
+     */
+    public String getFollowersurl() {
+        Integer index = getCachedColumnIndexOrThrow(AuthorColumns.FOLLOWERSURL);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code followingurl} value.
+     * Can be {@code null}.
+     */
+    public String getFollowingurl() {
+        Integer index = getCachedColumnIndexOrThrow(AuthorColumns.FOLLOWINGURL);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code starredurl} value.
+     * Can be {@code null}.
+     */
+    public String getStarredurl() {
+        Integer index = getCachedColumnIndexOrThrow(AuthorColumns.STARREDURL);
+        return getString(index);
+    }
+
+    /**
      * Get the {@code date} value.
      * Can be {@code null}.
      */

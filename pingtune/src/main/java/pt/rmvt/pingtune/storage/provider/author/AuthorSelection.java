@@ -83,6 +83,66 @@ public class AuthorSelection extends AbstractSelection<AuthorSelection> {
         return this;
     }
 
+    public AuthorSelection avatarurl(String... value) {
+        addEquals(AuthorColumns.AVATARURL, value);
+        return this;
+    }
+
+    public AuthorSelection avatarurlNot(String... value) {
+        addNotEquals(AuthorColumns.AVATARURL, value);
+        return this;
+    }
+
+    public AuthorSelection avatarurlLike(String... value) {
+        addLike(AuthorColumns.AVATARURL, value);
+        return this;
+    }
+
+    public AuthorSelection followersurl(String... value) {
+        addEquals(AuthorColumns.FOLLOWERSURL, value);
+        return this;
+    }
+
+    public AuthorSelection followersurlNot(String... value) {
+        addNotEquals(AuthorColumns.FOLLOWERSURL, value);
+        return this;
+    }
+
+    public AuthorSelection followersurlLike(String... value) {
+        addLike(AuthorColumns.FOLLOWERSURL, value);
+        return this;
+    }
+
+    public AuthorSelection followingurl(String... value) {
+        addEquals(AuthorColumns.FOLLOWINGURL, value);
+        return this;
+    }
+
+    public AuthorSelection followingurlNot(String... value) {
+        addNotEquals(AuthorColumns.FOLLOWINGURL, value);
+        return this;
+    }
+
+    public AuthorSelection followingurlLike(String... value) {
+        addLike(AuthorColumns.FOLLOWINGURL, value);
+        return this;
+    }
+
+    public AuthorSelection starredurl(String... value) {
+        addEquals(AuthorColumns.STARREDURL, value);
+        return this;
+    }
+
+    public AuthorSelection starredurlNot(String... value) {
+        addNotEquals(AuthorColumns.STARREDURL, value);
+        return this;
+    }
+
+    public AuthorSelection starredurlLike(String... value) {
+        addLike(AuthorColumns.STARREDURL, value);
+        return this;
+    }
+
     public AuthorSelection date(String... value) {
         addEquals(AuthorColumns.DATE, value);
         return this;

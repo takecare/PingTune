@@ -15,10 +15,11 @@
 
     <!-- detail -->
     <dimen name="activity_detail_padding">8dp</dimen>
-    <dimen name="activity_detail_avatar_margin">10dp</dimen>
-    <dimen name="activity_detail_avatar_size">50dp</dimen>
+    <dimen name="activity_detail_avatar_margin">8dp</dimen>
+    <dimen name="activity_detail_avatar_size">80dp</dimen>
     <dimen name="activity_detail_text_margin">3dp</dimen>
-    <dimen name="activity_detail_title_text_size">18sp</dimen>
-    <dimen name="activity_detail_normal_text_size">13sp</dimen>
+    <dimen name="activity_detail_title_text_size">32sp</dimen>
+    <dimen name="activity_detail_normal_text_size">16sp</dimen>
+    <dimen name="activity_detail_author_margin">18dp</dimen>
 
 </resources>

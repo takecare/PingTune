@@ -88,6 +88,8 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Author clickedAuthor = mAuthorAdapter.getItem(position);
-        startActivity(new Intent(getActivity(), DetailActivity.class));
+        Intent activityIntent = new Intent(getActivity(), DetailActivity.class);
+        activityIntent.putExtra(Author.AUTHOR_PARCELABLE_KEY,clickedAuthor);
+        startActivity(activityIntent);
     }
 }

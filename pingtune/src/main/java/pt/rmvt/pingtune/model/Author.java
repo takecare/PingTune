@@ -13,6 +13,8 @@ import java.util.Date;
 
 public class Author implements Parcelable {
 
+    public static final String AUTHOR_PARCELABLE_KEY = "AUTHOR_PARCELABLE_KEY";
+
     private String mName;
     private String mEmail;
     private String mAvatar;

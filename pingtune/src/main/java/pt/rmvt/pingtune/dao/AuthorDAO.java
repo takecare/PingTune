@@ -83,7 +83,13 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void update(Author obj, IUpdateListener updateListener) {
-        // TODO
+        assert mAsyncQueryHandler != null && obj != null;
+        mAsyncQueryHandler.startUpdate(
+                AuthorColumns.CONTENT_URI,
+                getContentValues(obj),
+                null,
+                null,
+                updateListener);
     }
 
     @Override @Deprecated
@@ -93,7 +99,12 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-        // TODO
+        assert mAsyncQueryHandler != null;
+        mAsyncQueryHandler.startDelete(
+                AuthorColumns.CONTENT_URI,
+                key != null ? AuthorColumns._ID + "=?" : null,
+                key != null ? new String[] {String.valueOf(key)} : null,
+                deleteListener);
     }
 
 

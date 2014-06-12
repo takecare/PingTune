@@ -45,7 +45,6 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
     @Override
     public void read(Long key, IReadListener<Commit> readListener) {
         assert mAsyncQueryHandler != null && readListener != null;
-
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,
@@ -57,7 +56,6 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     public void readByAuthorName(String name, IReadListener<Commit> readListener) {
         assert mAsyncQueryHandler != null && name != null;
-
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
                 null,
@@ -96,7 +94,13 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void update(Commit obj, IUpdateListener updateListener) {
-        // TODO
+        assert mAsyncQueryHandler != null && obj != null;
+        mAsyncQueryHandler.startUpdate(
+                CommitColumns.CONTENT_URI,
+                getContentValues(obj),
+                null,
+                null,
+                updateListener);
     }
 
     @Override @Deprecated
@@ -106,7 +110,12 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-        // TODO
+        assert mAsyncQueryHandler != null;
+        mAsyncQueryHandler.startDelete(
+                CommitColumns.CONTENT_URI,
+                key != null ? CommitColumns._ID + "=?" : null,
+                key != null ? new String[] {String.valueOf(key)} : null,
+                deleteListener);
     }
 
     @Override

@@ -85,7 +85,6 @@ public class PingTuneDataManager {
                         HashMap<Author, List<Commit>> commitsByAuthor = groupCommitsByAuthor(list);
                         mCommitsByAuthor.putAll(commitsByAuthor);
 
-                        //PingTuneBus.getBusInstance().post(PingTuneBus.UpdateType.NETWORK_UPDATE);
                         PingTuneBus.getBusInstance().post(commitsByAuthor);
                     }
                 },
@@ -98,7 +97,7 @@ public class PingTuneDataManager {
         );
     }
 
-    private HashMap<Author,List<Commit>> fetchCommitsFromStorage(Context context) {
+    private void fetchCommitsFromStorage(Context context) {
         HashMap<Author,List<Commit>> commitsByAuthor = new HashMap<Author,List<Commit>>();
 
         final HashMap<String,Author> authorsByName = new HashMap<String,Author>();
@@ -149,8 +148,10 @@ public class PingTuneDataManager {
             }
         });
 
-        commitsByAuthor = groupCommitsByAuthor(commits);
-        return commitsByAuthor;
+        if (commits.size() > 0) {
+            commitsByAuthor = groupCommitsByAuthor(commits);
+            PingTuneBus.getBusInstance().post(commitsByAuthor);
+        }
     }
 
     private void persistCommitsIntoStorage(Context context,

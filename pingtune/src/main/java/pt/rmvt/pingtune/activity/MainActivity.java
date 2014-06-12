@@ -97,11 +97,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //testProvider();
         //testAsyncQuery();
-
-        testCardinalityRequest();
+        //testCardinalityRequest();
 
         PingTuneDataManager.getInstance().setup(getApplicationContext());
-        PingTuneDataManager.getInstance().updateFromNetwork();
+        PingTuneDataManager.getInstance().updateFromNetwork(getApplicationContext());
     }
 
 

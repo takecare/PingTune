@@ -10,6 +10,6 @@
     <string name="aboutFragmentTitle">About</string>
     <string name="detailFragmentTitle">Detail</string>
 
-    <string name="row_author_image_view">Author's avatar</string>
+    <string name="row_author_image_view">Avatar</string>
 
 </resources>

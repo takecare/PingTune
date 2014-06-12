@@ -26,7 +26,7 @@ public class CommitListFragment extends BaseFragment {
     public static final String LOG_TAG = "CommitListFragment";
 
     @InjectView(R.id.fragmentCommitListListView)
-    private ListView mListView;
+    public ListView mListView;
     private AuthorAdapter mAuthorAdapter;
 
     public CommitListFragment() {}

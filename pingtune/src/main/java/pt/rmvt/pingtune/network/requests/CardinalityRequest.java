@@ -15,21 +15,21 @@ import org.json.JSONArray;
 import pt.rmvt.pingtune.network.parser.CardinalityParser;
 import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
-public class FollowingCardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
+public class CardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
 
     public static final String LOG_TAG = "FollowingRequest";
 
-    private static String sFOLLOWING_REQUEST_API_URL;
+    private static String sCARDINALITY_REQUEST_API_URL;
 
-    public FollowingCardinalityRequest(String url) {
+    public CardinalityRequest(String url) {
         this(new CardinalityParser());
-        sFOLLOWING_REQUEST_API_URL = cleanUpUrl(url);
+        sCARDINALITY_REQUEST_API_URL = cleanUpUrl(url);
     }
 
-    private FollowingCardinalityRequest(PingTuneParser<Integer,JSONArray> parser) {
+    private CardinalityRequest(PingTuneParser<Integer, JSONArray> parser) {
         super(parser);
         mJsonRequest = new JsonArrayRequest(
-                sFOLLOWING_REQUEST_API_URL,
+                sCARDINALITY_REQUEST_API_URL,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {

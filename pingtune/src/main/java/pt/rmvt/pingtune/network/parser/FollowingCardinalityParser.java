@@ -6,6 +6,14 @@
  */
 package pt.rmvt.pingtune.network.parser;
 
-public class FollowingCardinalityParser {
+import org.json.JSONArray;
 
+public class FollowingCardinalityParser extends PingTuneParser<Integer,JSONArray> {
+
+    public static final String LOG_TAG = "FollowingCardinalityParser";
+
+    @Override
+    public Integer parse(JSONArray response) {
+        return response.length();
+    }
 }

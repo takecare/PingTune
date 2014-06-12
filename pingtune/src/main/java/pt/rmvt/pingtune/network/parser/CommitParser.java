@@ -18,7 +18,7 @@ import java.util.List;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
 
-public class CommitParser extends PingTuneParser<List<Commit>,JSONArray>{
+public class CommitParser extends PingTuneParser<List<Commit>,JSONArray> {
 
     public static final String LOG_TAG = "CommitParser";
 

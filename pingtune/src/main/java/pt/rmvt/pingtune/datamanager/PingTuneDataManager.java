@@ -42,8 +42,10 @@ public class PingTuneDataManager {
 
     private PingTuneRequestManager mRequestManager;
 
+    private boolean mNetworkFetchInProgress = false;
     private HashMap<Author, List<Commit>> mCommitsByAuthor;
     private String mLastSha = null;
+
 
     private static PingTuneDataManager sDataManager;
 
@@ -76,12 +78,18 @@ public class PingTuneDataManager {
     // -
 
     private void fetchCommitsFromNetwork(final Context context, String lastSha) {
+        if (mNetworkFetchInProgress) {
+            Log.d(LOG_TAG,"#fetchCommitsFromNetwork: networkFetchInProgress");
+            return;
+        }
         CommitRequest request = lastSha == null ? new CommitRequest() : new CommitRequest(lastSha);
+        mNetworkFetchInProgress = true;
         mRequestManager.executeRequest(
                 request,
                 new PingTuneRequest.PingTuneResponseListener<List<Commit>>() {
                     @Override
                     public void onResponse(List<Commit> list) {
+                        mNetworkFetchInProgress = false;
                         if (mLastSha == null) {
                             mLastSha = list.get(list.size()-1).getSha();
                             fetchCommitsFromNetwork(context,mLastSha);
@@ -95,6 +103,7 @@ public class PingTuneDataManager {
                 new PingTuneRequest.PingTuneErrorListener() {
                     @Override
                     public void onError(String errorMessage, int statusCode) {
+                        mNetworkFetchInProgress = false;
                         PingTuneBus.getBusInstance().post(new PingTuneCrouton(
                                 Style.ALERT,
                                 context.getResources().getString(R.string.datamanager_fetch_commits_error)));

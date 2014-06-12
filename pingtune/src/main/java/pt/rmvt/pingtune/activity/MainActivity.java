@@ -6,6 +6,8 @@
  */
 package pt.rmvt.pingtune.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -224,6 +226,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     @Override
                     public void onResponse(List<Commit> list) {
                         Log.d(LOG_TAG,"RECEIVED RESPONSE: "+list.size());
+                        HashMap<Author,List<Commit>> commitsByAuthor = group(list);
+                        for (Author author : commitsByAuthor.keySet()) {
+                            Log.d(LOG_TAG,author.getName());
+                        }
                     }
                 },
                 new PingTuneRequest.PingTuneErrorListener() {
@@ -233,6 +239,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     }
                 }
         );
+    }
 
+    public HashMap<Author,List<Commit>> group(List<Commit> commits) {
+
+        HashMap<Author,List<Commit>> commitsByAuthor = new HashMap<Author, List<Commit>>();
+
+        for (Commit commit : commits) {
+
+            if (!commitsByAuthor.containsKey(commit.getAuthor())) {
+                commitsByAuthor.put(commit.getAuthor(),new ArrayList<Commit>());
+            } else {
+                commitsByAuthor.get(commit.getAuthor()).add(commit);
+            }
+        }
+
+        return commitsByAuthor;
     }
 }

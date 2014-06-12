@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/rowAuthorAvatarImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/row_author_image_view" />
+
+    <TextView
+        android:id="@+id/rowAuthorNameTextView"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/app_name"/>
+
+    <include
+        android:id="@+id/rowAuthorFirstCommit"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rowAuthorNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/commit" />
+
+    <!--
+    <include
+        android:id="@+id/rowAuthorSecondCommit"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rowAuthorFirstCommit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/commit" />
+
+    <include
+        android:id="@+id/rowAuthorThirdCommit"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rowAuthorSecondCommit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/commit" />
+    -->
+
+</RelativeLayout>

@@ -30,7 +30,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void create(Author obj, ICreateListener<Long> createListener) {
-        assert obj != null && createListener != null && mAsyncQueryHandler != null;
+        assert obj != null && mAsyncQueryHandler != null;
         mAsyncQueryHandler.startInsert(
                 AuthorColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -44,7 +44,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override
     public void read(Long key, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && key != null && readListener != null;
+        assert mAsyncQueryHandler != null && key != null;
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -55,13 +55,23 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     }
 
     public void readByName(String name, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && readListener != null;
-
+        assert mAsyncQueryHandler != null;
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
                 name != null ? AuthorColumns.NAME + "=?" : null,
                 name != null ? new String[]{name} : null,
+                null,
+                readListener);
+    }
+
+    public void readAll(IReadListener<Author> readListener) {
+        assert mAsyncQueryHandler != null && readListener != null;
+        mAsyncQueryHandler.startQuery(
+                AuthorColumns.CONTENT_URI,
+                null,
+                null,
+                null,
                 null,
                 readListener);
     }

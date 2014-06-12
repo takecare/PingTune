@@ -30,7 +30,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void create(Commit obj, ICreateListener<Long> createListener) {
-        assert obj != null && createListener != null && mAsyncQueryHandler != null;
+        assert obj != null && mAsyncQueryHandler != null;
         mAsyncQueryHandler.startInsert(
                 CommitColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -44,7 +44,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void read(Long key, IReadListener<Commit> readListener) {
-        assert mAsyncQueryHandler != null;
+        assert mAsyncQueryHandler != null && readListener != null;
 
         mAsyncQueryHandler.startQuery(
                 CommitColumns.CONTENT_URI,
@@ -74,6 +74,17 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
                 null,
                 CommitColumns.AUTHORNAME + "=?",
                 new String[]{sha},
+                null,
+                readListener);
+    }
+
+    public void readAll(IReadListener<Commit> readListener) {
+        assert mAsyncQueryHandler != null && readListener != null;
+        mAsyncQueryHandler.startQuery(
+                CommitColumns.CONTENT_URI,
+                null,
+                null,
+                null,
                 null,
                 readListener);
     }

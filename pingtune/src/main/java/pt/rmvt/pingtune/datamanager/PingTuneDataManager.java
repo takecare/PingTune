@@ -7,6 +7,7 @@
 package pt.rmvt.pingtune.datamanager;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -21,11 +22,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import pt.rmvt.pingtune.bus.PingTuneBus;
 import pt.rmvt.pingtune.dao.AuthorDAO;
 import pt.rmvt.pingtune.dao.CommitDAO;
+import pt.rmvt.pingtune.dao.IDataAccessObject;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.network.PingTuneRequestManager;
 import pt.rmvt.pingtune.network.requests.CommitRequest;
 import pt.rmvt.pingtune.network.requests.PingTuneRequest;
+import pt.rmvt.pingtune.storage.provider.author.AuthorCursor;
+import pt.rmvt.pingtune.storage.provider.commit.CommitCursor;
 
 public class PingTuneDataManager {
 
@@ -56,14 +60,11 @@ public class PingTuneDataManager {
 
     public void updateFromNetwork(Context context) {
 
-        // TODO 1. check if network connection
         if (isNetworkConnectionAvailable(context)) {
             fetchCommitsFromNetwork(null);
         } else {
-            fetchCommitsFromStorage();
+            fetchCommitsFromStorage(context);
         }
-
-        // TODO 3. update db (through provider)
     }
 
     // -
@@ -97,8 +98,59 @@ public class PingTuneDataManager {
         );
     }
 
-    private void fetchCommitsFromStorage(Context context) {
-        
+    private HashMap<Author,List<Commit>> fetchCommitsFromStorage(Context context) {
+        HashMap<Author,List<Commit>> commitsByAuthor = new HashMap<Author,List<Commit>>();
+
+        final HashMap<String,Author> authorsByName = new HashMap<String,Author>();
+        final ArrayList<Commit> commits = new ArrayList<Commit>();
+
+        AuthorDAO authorDAO = new AuthorDAO(context.getContentResolver());
+        authorDAO.readAll(new IDataAccessObject.IReadListener<Author>() {
+            @Override
+            public void onReadFinished(Cursor cursor) {
+                if (cursor != null && cursor.getCount() > 0) {
+                    Author author;
+                    AuthorCursor authorCursor;
+                    cursor.moveToFirst();
+                    do {
+                        authorCursor = new AuthorCursor(cursor);
+                        author = new Author();
+                        author.setName(authorCursor.getName());
+                        author.setFollowersUrl(authorCursor.getFollowersurl());
+                        author.setFollowingUrl(authorCursor.getFollowingurl());
+                        author.setStarredUrl(authorCursor.getStarredurl());
+                        author.setTextDate(authorCursor.getDate());
+                        author.setEmail(authorCursor.getEmail());
+                        authorsByName.put(author.getName(),author);
+                    } while (cursor.moveToNext());
+                }
+            }
+        });
+
+        CommitDAO commitDAO = new CommitDAO(context.getContentResolver());
+        commitDAO.readAll(new IDataAccessObject.IReadListener<Commit>() {
+            @Override
+            public void onReadFinished(Cursor cursor) {
+                if (cursor != null && cursor.getCount() > 0) {
+                    Commit commit;
+                    CommitCursor commitCursor;
+                    cursor.moveToFirst();
+                    do {
+                        commitCursor = new CommitCursor(cursor);
+                        commit = new Commit();
+                        commit.setSha(commitCursor.getSha());
+                        commit.setHtmlUrl(commitCursor.getHtmlurl());
+                        commit.setParentSha(commitCursor.getParentsha());
+                        commit.setUrl(commitCursor.getUrl());
+                        commit.setAuthor(authorsByName.get(commitCursor.getAuthorname()));
+                        commits.add(commit);
+                    } while (commitCursor.moveToNext());
+                }
+            }
+        });
+
+        commitsByAuthor = groupCommitsByAuthor(commits);
+        return commitsByAuthor;
     }
 
     private void persistCommitsIntoStorage(Context context,

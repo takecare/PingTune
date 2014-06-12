@@ -28,21 +28,15 @@ public class CommitRequest extends PingTuneRequest<List<Commit>,JSONArray> {
 
     private String mUser = NetworkInfo.GITHUB_RUBY_USER;
     private String mRepo = NetworkInfo.GITHUB_RUBY_REPO;
-    private String mLastSha = null;
 
     public CommitRequest() {
-        this(new CommitParser());
+        this(null);
     }
 
     public CommitRequest(String lastSha) {
-        this();
-        mLastSha = lastSha;
-    }
+        super(new CommitParser());
 
-    private CommitRequest(PingTuneParser<List<Commit>,JSONArray> parser) {
-        super(parser);
-
-        sCOMMIT_REQUEST_API_URL = mLastSha == null ?
+        sCOMMIT_REQUEST_API_URL = lastSha == null ?
                 NetworkInfo.GITHUB_API_ENDPOINT + String.format(
                         NetworkInfo.GITHUB_API_COMMITS_REQUEST_FORMAT,
                         mUser,
@@ -51,7 +45,7 @@ public class CommitRequest extends PingTuneRequest<List<Commit>,JSONArray> {
                         NetworkInfo.GITHUB_API_COMMITS_LAST_SHA_REQUEST_FORMAT,
                         mUser,
                         mRepo,
-                        mLastSha);
+                        lastSha);
 
         mJsonRequest = new JsonArrayRequest(
                 sCOMMIT_REQUEST_API_URL,

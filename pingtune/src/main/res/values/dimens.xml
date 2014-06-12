@@ -22,4 +22,9 @@
     <dimen name="activity_detail_normal_text_size">16sp</dimen>
     <dimen name="activity_detail_author_margin">18dp</dimen>
 
+    <!-- cardinality -->
+    <dimen name="cardinality_text_margin">5dp</dimen>
+    <dimen name="cardinality_value_text_size">32sp</dimen>
+    <dimen name="cardinality_title_text_size">13sp</dimen>
+
 </resources>

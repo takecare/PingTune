@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/author_row_height" > <!-- ?android:attr/listPreferredItemHeight -->
+    android:layout_height="wrap_content" > <!-- ?android:attr/listPreferredItemHeight -->
 
     <!-- we need a parent layout to force a margin -->
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/author_row_height"
         android:layout_margin="@dimen/author_row_margin"
         android:padding="@dimen/author_row_padding"
         android:background="@drawable/background_row_card" >

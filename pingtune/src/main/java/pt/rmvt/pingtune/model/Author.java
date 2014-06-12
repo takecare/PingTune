@@ -9,8 +9,6 @@ package pt.rmvt.pingtune.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 public class Author implements Parcelable {
 
     public static final String AUTHOR_PARCELABLE_KEY = "AUTHOR_PARCELABLE_KEY";

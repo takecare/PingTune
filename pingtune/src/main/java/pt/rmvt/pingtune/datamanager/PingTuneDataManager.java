@@ -58,8 +58,7 @@ public class PingTuneDataManager {
         mRequestManager.setup(context);
     }
 
-    public void updateFromNetwork(Context context) {
-
+    public void update(Context context) {
         if (isNetworkConnectionAvailable(context)) {
             fetchCommitsFromNetwork(null);
         } else {
@@ -76,15 +75,12 @@ public class PingTuneDataManager {
                 new PingTuneRequest.PingTuneResponseListener<List<Commit>>() {
                     @Override
                     public void onResponse(List<Commit> list) {
-
                         if (mLastSha == null) {
                             mLastSha = list.get(list.size()-1).getSha();
                             fetchCommitsFromNetwork(mLastSha);
                         }
-
                         HashMap<Author, List<Commit>> commitsByAuthor = groupCommitsByAuthor(list);
                         mCommitsByAuthor.putAll(commitsByAuthor);
-
                         PingTuneBus.getBusInstance().post(commitsByAuthor);
                     }
                 },

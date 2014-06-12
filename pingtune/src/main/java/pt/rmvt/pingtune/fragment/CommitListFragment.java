@@ -35,6 +35,8 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
 
     public static final String LOG_TAG = "CommitListFragment";
 
+    private static final String ARRAY_LIST_AUTHOR_PARCELABLE_KEY = "ARRAY_LIST_AUTHOR_PARCELABLE_KEY";
+
     @InjectView(R.id.fragmentCommitListListView)
     public ListView mListView;
     private AuthorAdapter mAuthorAdapter;
@@ -70,6 +72,37 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
     }
 
     @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+
+            ArrayList<Author> authors = savedInstanceState.getParcelableArrayList(
+                    ARRAY_LIST_AUTHOR_PARCELABLE_KEY);
+
+            if (authors != null) {
+                update(authors);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        ArrayList<Author> authors = new ArrayList<Author>(mAuthorAdapter.getCount());
+        for (int i=0; i<mAuthorAdapter.getCount(); i++) {
+            authors.add(mAuthorAdapter.getItem(i));
+        }
+        outState.putParcelableArrayList(ARRAY_LIST_AUTHOR_PARCELABLE_KEY,authors);
+    }
+
+    @Override
     public CharSequence getTitle() {
         return getArguments().getString(KEY_ARGUMENT_FRAGMENT_TITLE);
     }
@@ -77,12 +110,14 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
     @Subscribe
     public void update(HashMap<Author, List<Commit>> commitsByAuthor) {
         Log.d(LOG_TAG,"received update: "+commitsByAuthor.size());
-
-        mAuthorAdapter.clear();
-        mAuthorAdapter.addAll(commitsByAuthor.keySet()); // FIXME
-        mAuthorAdapter.notifyDataSetChanged();
-
+        update(new ArrayList<Author>(commitsByAuthor.keySet()));
         Log.d(LOG_TAG,"adapter count = "+mAuthorAdapter.getCount());
+    }
+
+    private void update(List<Author> authors) {
+        mAuthorAdapter.clear();
+        mAuthorAdapter.addAll(authors); // FIXME
+        mAuthorAdapter.notifyDataSetChanged();
     }
 
     @Override

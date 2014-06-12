@@ -13,14 +13,14 @@ import java.util.List;
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
-public class FollowingRequest extends PingTuneRequest<List<Commit>,JSONArray> {
+public class FollowingCardinalityRequest extends PingTuneRequest<List<Commit>,JSONArray> {
 
     public static final String LOG_TAG = "FollowingRequest";
 
     private static String sFOLLOWING_REQUEST_API_URL;
 
 
-    private FollowingRequest(PingTuneParser<Integer,JSONArray> parser) {
+    private FollowingCardinalityRequest(PingTuneParser<Integer, JSONArray> parser) {
 
     }
 

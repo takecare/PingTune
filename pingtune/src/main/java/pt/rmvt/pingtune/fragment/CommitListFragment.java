@@ -109,9 +109,7 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
 
     @Subscribe
     public void update(HashMap<Author, List<Commit>> commitsByAuthor) {
-        Log.d(LOG_TAG,"received update: "+commitsByAuthor.size());
         update(new ArrayList<Author>(commitsByAuthor.keySet()));
-        Log.d(LOG_TAG,"adapter count = "+mAuthorAdapter.getCount());
     }
 
     private void update(List<Author> authors) {

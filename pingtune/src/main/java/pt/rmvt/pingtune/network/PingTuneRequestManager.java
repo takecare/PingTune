@@ -33,26 +33,28 @@ public class PingTuneRequestManager {
             sImageCache = new PingTuneImageCache();
             sImageLoader = new ImageLoader(sRequestQueue, sImageCache);
         }
-
         mIsStarted = true;
     }
 
     public void executeRequest(PingTuneRequest request) {
-        if (BuildConfig.DEBUG && (!mIsStarted || request == null)) throw new RuntimeException();
+        if (BuildConfig.DEBUG && (!mIsStarted || request == null))
+            throw new RuntimeException("!mIsStarted || request==null");
         sRequestQueue.add(request.getRequest());
     }
 
     public void executeRequest(PingTuneRequest request,
                                PingTuneRequest.PingTuneResponseListener responseListener,
                                PingTuneRequest.PingTuneErrorListener errorListener) {
-        if (BuildConfig.DEBUG && request == null) throw new RuntimeException();
+        if (BuildConfig.DEBUG && request == null)
+            throw new RuntimeException("request==null");
         request.setResposeListener(responseListener);
         request.setErrorListener(errorListener);
         executeRequest(request);
     }
 
     public void cancelRequest(PingTuneRequest request) {
-        if (BuildConfig.DEBUG && request == null) throw new RuntimeException();
+        if (BuildConfig.DEBUG && request == null)
+            throw new RuntimeException("request == null");
         sRequestQueue.cancelAll(request.getTag());
     }
 

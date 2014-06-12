@@ -20,7 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.bus.PingTuneBus;
+import pt.rmvt.pingtune.crouton.PingTuneCrouton;
 import pt.rmvt.pingtune.dao.AuthorDAO;
 import pt.rmvt.pingtune.dao.CommitDAO;
 import pt.rmvt.pingtune.dao.IDataAccessObject;
@@ -62,6 +66,9 @@ public class PingTuneDataManager {
         if (isNetworkConnectionAvailable(context)) {
             fetchCommitsFromNetwork(context,null);
         } else {
+            PingTuneBus.getBusInstance().post(new PingTuneCrouton(
+                    Style.INFO,
+                    context.getResources().getString(R.string.no_connectivity_info)));
             fetchCommitsFromStorage(context);
         }
     }
@@ -88,7 +95,10 @@ public class PingTuneDataManager {
                 new PingTuneRequest.PingTuneErrorListener() {
                     @Override
                     public void onError(String errorMessage, int statusCode) {
-                        Log.d(LOG_TAG, statusCode + ": " + errorMessage);
+                        PingTuneBus.getBusInstance().post(new PingTuneCrouton(
+                                Style.ALERT,
+                                context.getResources().getString(R.string.datamanager_fetch_commits_error)));
+                        Log.e(LOG_TAG, statusCode+": "+errorMessage);
                     }
                 }
         );
@@ -100,7 +110,7 @@ public class PingTuneDataManager {
         final HashMap<String,Author> authorsByName = new HashMap<String,Author>();
         final ArrayList<Commit> commits = new ArrayList<Commit>();
 
-        readAuthorsAndCommitsFromStorage(context,authorsByName,commits);
+        readAuthorsAndCommitsFromStorage(context, authorsByName, commits);
     }
 
     private void persistCommitsIntoStorage(Context context,
@@ -117,9 +127,6 @@ public class PingTuneDataManager {
 
     // HELPER METHODS
     private HashMap<Author,List<Commit>> groupCommitsByAuthor(List<Commit> commits) {
-
-        // TODO: improve this so it adds new commits (2nd request/response)
-
         HashMap<Author,List<Commit>> commitsByAuthor = new HashMap<Author, List<Commit>>();
         for (Commit commit : commits) {
             if (!commitsByAuthor.containsKey(commit.getAuthor())) {
@@ -174,7 +181,7 @@ public class PingTuneDataManager {
                         authorsByName.put(author.getName(),author);
                     } while (cursor.moveToNext());
                     cursor.close();
-                    readCommitsFromStorageAndPost(context,authorsByName,commits);
+                    readCommitsFromStorageAndPost(context, authorsByName, commits);
                 }
             }
         });

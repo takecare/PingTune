@@ -17,10 +17,15 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.bus.PingTuneBus;
+import pt.rmvt.pingtune.crouton.PingTuneCrouton;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.network.PingTuneRequestManager;
 import pt.rmvt.pingtune.network.requests.CardinalityRequest;
@@ -54,6 +59,7 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
         super.onCreate(savedInstanceState);
 
         mRequestManager = new PingTuneRequestManager();
+        mRequestManager.setup(this);
 
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
@@ -83,6 +89,8 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
         // actionbar config
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        PingTuneBus.getBusInstance().register(this);
 
         if (getIntent() != null) {
             mAuthor = getIntent().getParcelableExtra(Author.AUTHOR_PARCELABLE_KEY);
@@ -136,7 +144,9 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
             }
 
         } else {
-            // TODO ERROR!
+            PingTuneBus.getBusInstance().post(new PingTuneCrouton(
+                    Style.ALERT,
+                    getResources().getString(R.string.detail_activity_bundle_error)));
         }
 
     }
@@ -144,12 +154,13 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
+
+        Crouton.cancelAllCroutons();
 
         if (mFollowersRequest != null)
             mRequestManager.cancelRequest(mFollowersRequest);
@@ -174,7 +185,15 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
 
     @Override
     public void onError(String errorMessage, int statusCode) {
-        // TODO error
-        Log.e(LOG_TAG,"ERROR");
+        PingTuneBus.getBusInstance().post(new PingTuneCrouton(
+                Style.ALERT,
+                getResources().getString(R.string.detail_activity_cardinality_error)));
+        Log.e(LOG_TAG, statusCode+": "+errorMessage);
+    }
+
+    @Subscribe
+    public void onPingTuneCrouton(PingTuneCrouton crouton) {
+        Crouton.makeText(this, crouton.getMessage(), crouton.getStyle())
+                .show();
     }
 }

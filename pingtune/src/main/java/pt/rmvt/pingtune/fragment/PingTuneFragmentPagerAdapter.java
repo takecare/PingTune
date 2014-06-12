@@ -56,9 +56,9 @@ public class PingTuneFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case COMMIT_LIST_FRAGMENT_POS:
-                return null; // TODO
+                return mCommitListFragment.getTitle();
             case ABOUT_FRAGMENT_POS:
-                return null; // TODO;
+                return mAboutFragment.getTitle();
             default:
                 return null;
         }

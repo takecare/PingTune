@@ -20,4 +20,12 @@
     <string name="cardinality_following_title">Following</string>
     <string name="cardinality_starred_title">Starred</string>
 
+    <!-- errors -->
+    <string name="datamanager_fetch_commits_error">Failed to fetch latest commits!</string>
+    <string name="detail_activity_cardinality_error">Failed to fetch cardinality!</string>
+    <string name="detail_activity_bundle_error">Failed to load author data!</string>
+
+    <!-- info/messages -->
+    <string name="no_connectivity_info">No network connectivity:\nwill attempt to load data from local storage.</string>
+
 </resources>

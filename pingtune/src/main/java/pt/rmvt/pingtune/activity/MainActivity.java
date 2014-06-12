@@ -30,9 +30,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.bus.PingTuneBus;
+import pt.rmvt.pingtune.crouton.PingTuneCrouton;
 import pt.rmvt.pingtune.dao.AuthorDAO;
 import pt.rmvt.pingtune.dao.IDataAccessObject;
 import pt.rmvt.pingtune.datamanager.PingTuneDataManager;
@@ -95,10 +101,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     .setTabListener(this));
         }
 
-        PingTuneDataManager.getInstance().setup(getApplicationContext());
-        PingTuneDataManager.getInstance().update(getApplicationContext());
+        PingTuneBus.getBusInstance().register(this);
+
+        PingTuneDataManager.getInstance().setup(this);
+        PingTuneDataManager.getInstance().update(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Crouton.cancelAllCroutons();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,4 +156,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     public void onPageScrollStateChanged(int state) {}
 
+    @Subscribe
+    public void onPingTuneCrouton(PingTuneCrouton crouton) {
+        Crouton.makeText(this, crouton.getMessage(), crouton.getStyle())
+                .show();
+    }
 }

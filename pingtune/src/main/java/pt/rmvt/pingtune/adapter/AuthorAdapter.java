@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.network.PingTuneRequestManager;
 
 public class AuthorAdapter extends ArrayAdapter<Author> {
 
@@ -52,6 +53,7 @@ public class AuthorAdapter extends ArrayAdapter<Author> {
             holder = (AuthorHolder) row.getTag();
         }
 
+        holder.mImageView.setImageUrl(getItem(position).getAvatarUrl(), PingTuneRequestManager.getImageLoaderInstance());
         holder.mNameTextView.setText(getItem(position).getName());
         holder.mFirstCommitMessageTextView.setText(getItem(position).getEmail());
         holder.mFirstCommitDateTextView.setText(getItem(position).getTextDate());
@@ -59,8 +61,7 @@ public class AuthorAdapter extends ArrayAdapter<Author> {
         return row;
     }
 
-    //
-
+    // HOLDER
     public static final class AuthorHolder {
 
         public NetworkImageView mImageView;

@@ -17,6 +17,8 @@ import android.widget.ListView;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,6 +26,7 @@ import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.adapter.AuthorAdapter;
 import pt.rmvt.pingtune.bus.PingTuneBus;
 import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.model.Commit;
 
 public class CommitListFragment extends BaseFragment {
 
@@ -55,6 +58,7 @@ public class CommitListFragment extends BaseFragment {
         ButterKnife.inject(this, view);
 
         mAuthorAdapter = new AuthorAdapter(getActivity(),new ArrayList<Author>());
+        mListView.setAdapter(mAuthorAdapter);
 
         PingTuneBus.getBusInstance().register(this);
 
@@ -67,8 +71,13 @@ public class CommitListFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void update(PingTuneBus.UpdateType updateType) {
-        Log.d(LOG_TAG,"received update: "+updateType);
+    public void update(HashMap<Author, List<Commit>> commitsByAuthor) {
+        Log.d(LOG_TAG,"received update: "+commitsByAuthor.size());
 
+        mAuthorAdapter.clear();
+        mAuthorAdapter.addAll(commitsByAuthor.keySet());
+        mAuthorAdapter.notifyDataSetChanged();
+
+        Log.d(LOG_TAG,"adapter count = "+mAuthorAdapter.getCount());
     }
 }

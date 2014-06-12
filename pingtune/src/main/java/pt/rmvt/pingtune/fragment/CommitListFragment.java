@@ -11,12 +11,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.adapter.AuthorAdapter;
+import pt.rmvt.pingtune.model.Author;
 
 public class CommitListFragment extends BaseFragment {
 
     public static final String LOG_TAG = "CommitListFragment";
+
+    @InjectView(R.id.fragmentCommitListListView)
+    private ListView mListView;
+    private AuthorAdapter mAuthorAdapter;
 
     public CommitListFragment() {}
 
@@ -37,7 +48,10 @@ public class CommitListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_commit_list, container, false);
-        // TODO ...
+        ButterKnife.inject(this, view);
+
+        mAuthorAdapter = new AuthorAdapter(getActivity(),new ArrayList<Author>());
+
         return view;
     }
 
@@ -45,4 +59,6 @@ public class CommitListFragment extends BaseFragment {
     public CharSequence getTitle() {
         return getArguments().getString(KEY_ARGUMENT_FRAGMENT_TITLE);
     }
+
+
 }

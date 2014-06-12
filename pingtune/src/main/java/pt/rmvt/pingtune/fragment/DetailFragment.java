@@ -24,7 +24,7 @@ public class DetailFragment extends BaseFragment {
 
         CommitListFragment fragment = new CommitListFragment();
 
-        String title = resources.getString(R.string.detailFragmentTitle);
+        String title = resources.getString(R.string.detail_fragment_title);
 
         Bundle arguments = new Bundle();
         arguments.putString(KEY_ARGUMENT_FRAGMENT_TITLE,title);
@@ -36,7 +36,7 @@ public class DetailFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        View view = inflater.inflate(R.layout.activity_detail, container, false);
         // TODO ...
         return view;
     }

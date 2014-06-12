@@ -25,12 +25,12 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Author obj) {
-        return null;
+        return null; // TODO
     }
 
     @Override
     public void create(Author obj, ICreateListener<Long> createListener) {
-        assert obj != null && createListener != null && mAsyncQueryHandler != null;
+        assert obj != null && mAsyncQueryHandler != null;
         mAsyncQueryHandler.startInsert(
                 AuthorColumns.CONTENT_URI,
                 getContentValues(obj),
@@ -39,12 +39,12 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public Author read(ContentResolver resolver, Long key) {
-        return null;
+        return null; // TODO
     }
 
     @Override
     public void read(Long key, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && key != null && readListener != null;
+        assert mAsyncQueryHandler != null && key != null;
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -55,8 +55,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
     }
 
     public void readByName(String name, IReadListener<Author> readListener) {
-        assert mAsyncQueryHandler != null && readListener != null;
-
+        assert mAsyncQueryHandler != null;
         mAsyncQueryHandler.startQuery(
                 AuthorColumns.CONTENT_URI,
                 null,
@@ -66,24 +65,46 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
                 readListener);
     }
 
+    public void readAll(IReadListener<Author> readListener) {
+        assert mAsyncQueryHandler != null && readListener != null;
+        mAsyncQueryHandler.startQuery(
+                AuthorColumns.CONTENT_URI,
+                null,
+                null,
+                null,
+                null,
+                readListener);
+    }
+
     @Override @Deprecated
     public int update(ContentResolver resolver, Author obj) {
-        return 0;
+        return 0; // TODO
     }
 
     @Override
     public void update(Author obj, IUpdateListener updateListener) {
-
+        assert mAsyncQueryHandler != null && obj != null;
+        mAsyncQueryHandler.startUpdate(
+                AuthorColumns.CONTENT_URI,
+                getContentValues(obj),
+                null,
+                null,
+                updateListener);
     }
 
     @Override @Deprecated
     public int delete(ContentResolver resolver, Long key) {
-        return 0;
+        return 0; // TODO
     }
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-
+        assert mAsyncQueryHandler != null;
+        mAsyncQueryHandler.startDelete(
+                AuthorColumns.CONTENT_URI,
+                key != null ? AuthorColumns._ID + "=?" : null,
+                key != null ? new String[] {String.valueOf(key)} : null,
+                deleteListener);
     }
 
 
@@ -92,8 +113,11 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
         ContentValues values = new ContentValues();
         values.put(AuthorColumns.NAME,obj.getName());
         values.put(AuthorColumns.EMAIL,obj.getEmail());
-        if (obj.getTextDate() != null)
-            values.put(AuthorColumns.DATE,obj.getTextDate());
+        values.put(AuthorColumns.DATE,obj.getTextDate());
+        values.put(AuthorColumns.AVATARURL,obj.getAvatarUrl());
+        values.put(AuthorColumns.STARREDURL,obj.getStarredUrl());
+        values.put(AuthorColumns.FOLLOWINGURL,obj.getFollowingUrl());
+        values.put(AuthorColumns.FOLLOWERSURL,obj.getFollowersUrl());
         return values;
     }
 

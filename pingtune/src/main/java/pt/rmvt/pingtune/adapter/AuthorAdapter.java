@@ -71,7 +71,7 @@ public class AuthorAdapter extends ArrayAdapter<Author> {
 
         public AuthorHolder(View view) {
             ButterKnife.inject(this, view);
-            mImageView = (NetworkImageView) view.findViewById(R.id.rowAuthorAvatarImageView);
+            mImageView = ButterKnife.findById(view, R.id.rowAuthorAvatarImageView);
         }
 
     }

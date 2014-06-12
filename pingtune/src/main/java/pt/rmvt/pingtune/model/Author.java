@@ -6,9 +6,12 @@
  */
 package pt.rmvt.pingtune.model;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Author {
+public class Author implements Parcelable {
+
+    public static final String AUTHOR_PARCELABLE_KEY = "AUTHOR_PARCELABLE_KEY";
 
     private String mName;
     private String mEmail;
@@ -28,6 +31,17 @@ public class Author {
         mAvatar = avatar;
         mTextDate = textDate;
     }
+
+    protected Author(Parcel in) {
+        mName = in.readString();
+        mEmail = in.readString();
+        mAvatar = in.readString();
+        mTextDate = in.readString();
+        mFollowersUrl = in.readString();
+        mFollowingUrl = in.readString();
+        mStarredUrl = in.readString();
+    }
+
 
     // GETTERS & SETTERS
     public String getName() {
@@ -86,8 +100,8 @@ public class Author {
         mStarredUrl = starredUrl;
     }
 
-    // EQUALS
 
+    // HASHCODE & EQUALS
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,4 +126,35 @@ public class Author {
         result = 31 * result + (mStarredUrl != null ? mStarredUrl.hashCode() : 0);
         return result;
     }
+
+
+    // PARCELABLE
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeString(mEmail);
+        dest.writeString(mAvatar);
+        dest.writeString(mTextDate);
+        dest.writeString(mFollowersUrl);
+        dest.writeString(mFollowingUrl);
+        dest.writeString(mStarredUrl);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Author> CREATOR = new Parcelable.Creator<Author>() {
+        @Override
+        public Author createFromParcel(Parcel in) {
+            return new Author(in);
+        }
+
+        @Override
+        public Author[] newArray(int size) {
+            return new Author[size];
+        }
+    };
 }

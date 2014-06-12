@@ -6,12 +6,14 @@
  */
 package pt.rmvt.pingtune.fragment;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.squareup.otto.Subscribe;
@@ -23,14 +25,17 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
+import pt.rmvt.pingtune.activity.DetailActivity;
 import pt.rmvt.pingtune.adapter.AuthorAdapter;
 import pt.rmvt.pingtune.bus.PingTuneBus;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
 
-public class CommitListFragment extends BaseFragment {
+public class CommitListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     public static final String LOG_TAG = "CommitListFragment";
+
+    private static final String ARRAY_LIST_AUTHOR_PARCELABLE_KEY = "ARRAY_LIST_AUTHOR_PARCELABLE_KEY";
 
     @InjectView(R.id.fragmentCommitListListView)
     public ListView mListView;
@@ -42,7 +47,7 @@ public class CommitListFragment extends BaseFragment {
 
         CommitListFragment fragment = new CommitListFragment();
 
-        String title = resources.getString(R.string.commitListFragmentTitle);
+        String title = resources.getString(R.string.commit_list_fragment_title);
 
         Bundle arguments = new Bundle();
         arguments.putString(KEY_ARGUMENT_FRAGMENT_TITLE,title);
@@ -54,15 +59,47 @@ public class CommitListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        PingTuneBus.getBusInstance().register(this);
+
         View view = inflater.inflate(R.layout.fragment_commit_list, container, false);
         ButterKnife.inject(this, view);
 
         mAuthorAdapter = new AuthorAdapter(getActivity(),new ArrayList<Author>());
         mListView.setAdapter(mAuthorAdapter);
-
-        PingTuneBus.getBusInstance().register(this);
+        mListView.setOnItemClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+
+            ArrayList<Author> authors = savedInstanceState.getParcelableArrayList(
+                    ARRAY_LIST_AUTHOR_PARCELABLE_KEY);
+
+            if (authors != null) {
+                update(authors);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        ArrayList<Author> authors = new ArrayList<Author>(mAuthorAdapter.getCount());
+        for (int i=0; i<mAuthorAdapter.getCount(); i++) {
+            authors.add(mAuthorAdapter.getItem(i));
+        }
+        outState.putParcelableArrayList(ARRAY_LIST_AUTHOR_PARCELABLE_KEY,authors);
     }
 
     @Override
@@ -73,11 +110,21 @@ public class CommitListFragment extends BaseFragment {
     @Subscribe
     public void update(HashMap<Author, List<Commit>> commitsByAuthor) {
         Log.d(LOG_TAG,"received update: "+commitsByAuthor.size());
-
-        mAuthorAdapter.clear();
-        mAuthorAdapter.addAll(commitsByAuthor.keySet());
-        mAuthorAdapter.notifyDataSetChanged();
-
+        update(new ArrayList<Author>(commitsByAuthor.keySet()));
         Log.d(LOG_TAG,"adapter count = "+mAuthorAdapter.getCount());
+    }
+
+    private void update(List<Author> authors) {
+        mAuthorAdapter.clear();
+        mAuthorAdapter.addAll(authors); // FIXME
+        mAuthorAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Author clickedAuthor = mAuthorAdapter.getItem(position);
+        Intent activityIntent = new Intent(getActivity(), DetailActivity.class);
+        activityIntent.putExtra(Author.AUTHOR_PARCELABLE_KEY,clickedAuthor);
+        startActivity(activityIntent);
     }
 }

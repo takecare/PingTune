@@ -28,10 +28,10 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
             + AuthorColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + AuthorColumns.NAME + " TEXT, "
             + AuthorColumns.EMAIL + " TEXT, "
-            + AuthorColumns.DATE + " TEXT "
-            + AuthorColumns.AVATARURL + " TEXT "
-            + AuthorColumns.FOLLOWERSURL + " TEXT "
-            + AuthorColumns.FOLLOWINGURL + " TEXT "
+            + AuthorColumns.DATE + " TEXT, "
+            + AuthorColumns.AVATARURL + " TEXT, "
+            + AuthorColumns.FOLLOWERSURL + " TEXT, "
+            + AuthorColumns.FOLLOWINGURL + " TEXT, "
             + AuthorColumns.STARREDURL + " TEXT "
             + " );";
 

@@ -6,7 +6,10 @@
  */
 package pt.rmvt.pingtune.model;
 
-public class Commit {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Commit implements Parcelable {
 
     private String mSha;
     private String mUrl;
@@ -16,6 +19,14 @@ public class Commit {
 
     // CONSTRUCTORS
     public Commit() {}
+
+    protected Commit(Parcel in) {
+        mSha = in.readString();
+        mUrl = in.readString();
+        mHtmlUrl = in.readString();
+        mParentSha = in.readString();
+        mAuthor = in.readParcelable(Author.class.getClassLoader());
+    }
 
     public Commit(String sha, String url, String htmlUrl, String parentSha, Author author) {
         mSha = sha;
@@ -65,4 +76,32 @@ public class Commit {
     public void setAuthor(Author author) {
         mAuthor = author;
     }
+
+    // PARCELABLE
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mSha);
+        dest.writeString(mUrl);
+        dest.writeString(mHtmlUrl);
+        dest.writeString(mParentSha);
+        dest.writeParcelable(mAuthor,flags);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Commit> CREATOR = new Parcelable.Creator<Commit>() {
+        @Override
+        public Commit createFromParcel(Parcel in) {
+            return new Commit(in);
+        }
+
+        @Override
+        public Commit[] newArray(int size) {
+            return new Commit[size];
+        }
+    };
 }

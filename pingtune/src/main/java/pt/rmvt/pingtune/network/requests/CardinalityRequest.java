@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 
+import pt.rmvt.pingtune.BuildConfig;
 import pt.rmvt.pingtune.network.parser.CardinalityParser;
 import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
@@ -51,6 +52,7 @@ public class CardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
     }
 
     private String cleanUpUrl(String url) {
+        if (BuildConfig.DEBUG && url == null) throw new RuntimeException();
         return url.replaceAll(CLEAN_UP_URL_REGEX, "");
     }
 

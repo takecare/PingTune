@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import pt.rmvt.pingtune.BuildConfig;
 import pt.rmvt.pingtune.network.requests.PingTuneRequest;
 
 public class PingTuneRequestManager {
@@ -37,16 +38,22 @@ public class PingTuneRequestManager {
     }
 
     public void executeRequest(PingTuneRequest request) {
-        assert mIsStarted;
+        assert mIsStarted && request != null;
         sRequestQueue.add(request.getRequest());
     }
 
     public void executeRequest(PingTuneRequest request,
                                PingTuneRequest.PingTuneResponseListener responseListener,
                                PingTuneRequest.PingTuneErrorListener errorListener) {
+        if (BuildConfig.DEBUG && request == null) throw new RuntimeException();
         request.setResposeListener(responseListener);
         request.setErrorListener(errorListener);
         executeRequest(request);
+    }
+
+    public void cancelRequest(PingTuneRequest request) {
+        if (BuildConfig.DEBUG && request == null) throw new RuntimeException();
+        sRequestQueue.cancelAll(request.getTag());
     }
 
     // GETTERS

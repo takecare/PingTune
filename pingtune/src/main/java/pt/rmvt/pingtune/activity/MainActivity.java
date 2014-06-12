@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
-        //setSupportProgressBarVisibility(true);
+        //s§etSupportProgressBarVisibility(true);
 
         mViewPager.setOnPageChangeListener(this);
 
@@ -97,11 +97,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //testProvider();
         //testAsyncQuery();
-
-        testCardinalityRequest();
+        //testCardinalityRequest();
 
         PingTuneDataManager.getInstance().setup(getApplicationContext());
-        PingTuneDataManager.getInstance().updateFromNetwork();
+        PingTuneDataManager.getInstance().update(getApplicationContext());
     }
 
 

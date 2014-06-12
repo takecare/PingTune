@@ -7,6 +7,7 @@
 package pt.rmvt.pingtune.fragment;
 
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,6 +24,12 @@ public class PingTuneFragmentPagerAdapter extends FragmentPagerAdapter {
     private AboutFragment mAboutFragment;
 
     public PingTuneFragmentPagerAdapter(FragmentManager fm, Resources resources) {
+        super(fm);
+        mCommitListFragment = CommitListFragment.newInstance(resources);
+        mAboutFragment = AboutFragment.newInstance(resources);
+    }
+
+    public PingTuneFragmentPagerAdapter(Bundle savedInstance, FragmentManager fm, Resources resources) {
         super(fm);
         mCommitListFragment = CommitListFragment.newInstance(resources);
         mAboutFragment = AboutFragment.newInstance(resources);

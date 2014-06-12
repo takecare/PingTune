@@ -9,6 +9,8 @@ package pt.rmvt.pingtune.datamanager;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.toolbox.ImageLoader;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +44,7 @@ public class PingTuneDataManager {
 
     public void setup(Context context) {
         mCommitsByAuthor = new HashMap<Author, List<Commit>>();
+
         mRequestManager = new PingTuneRequestManager();
         mRequestManager.setup(context);
     }
@@ -75,7 +78,8 @@ public class PingTuneDataManager {
                         HashMap<Author, List<Commit>> commitsByAuthor = groupCommitsByAuthor(list);
                         mCommitsByAuthor.putAll(commitsByAuthor);
 
-                        PingTuneBus.getBusInstance().post(PingTuneBus.UpdateType.NETWORK_UPDATE);
+                        //PingTuneBus.getBusInstance().post(PingTuneBus.UpdateType.NETWORK_UPDATE);
+                        PingTuneBus.getBusInstance().post(commitsByAuthor);
                     }
                 },
                 new PingTuneRequest.PingTuneErrorListener() {

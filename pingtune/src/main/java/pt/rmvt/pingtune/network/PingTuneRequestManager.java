@@ -9,6 +9,7 @@ package pt.rmvt.pingtune.network;
 import android.content.Context;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 import pt.rmvt.pingtune.network.requests.PingTuneRequest;
@@ -16,6 +17,10 @@ import pt.rmvt.pingtune.network.requests.PingTuneRequest;
 public class PingTuneRequestManager {
 
     private static RequestQueue sRequestQueue;
+
+    private static ImageLoader sImageLoader;
+    private static PingTuneImageCache sImageCache;
+
     private boolean mIsStarted = false;
 
     public PingTuneRequestManager() {
@@ -25,7 +30,10 @@ public class PingTuneRequestManager {
     public void setup(Context context) {
         if (!mIsStarted) {
             sRequestQueue = Volley.newRequestQueue(context);
+            sImageCache = new PingTuneImageCache();
+            sImageLoader = new ImageLoader(sRequestQueue, sImageCache);
         }
+
         mIsStarted = true;
     }
 
@@ -42,4 +50,8 @@ public class PingTuneRequestManager {
         executeRequest(request);
     }
 
+    // GETTERS
+    public static ImageLoader getImageLoaderInstance() {
+        return sImageLoader;
+    }
 }

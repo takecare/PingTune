@@ -15,6 +15,8 @@ public class Commit {
     private Author mAuthor;
 
     // CONSTRUCTORS
+    public Commit() {}
+
     public Commit(String sha, String url, String htmlUrl, String parentSha, Author author) {
         mSha = sha;
         mUrl = url;

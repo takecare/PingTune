@@ -12,19 +12,20 @@ public class Author {
 
     private String mName;
     private String mEmail;
-    private Date mDate;
+    private String mAvatar;
     private String mTextDate;
 
+    private String mFollowersUrl;
+    private String mFollowingUrl;
+    private String mStarredUrl;
 
-    public Author(String name, String email, Date date) {
+    // CONSTRUCTORS
+    public Author() {}
+
+    public Author(String name, String email, String avatar, String textDate) {
         mName = name;
         mEmail = email;
-        mDate = date;
-    }
-
-    public Author(String name, String email, String textDate) {
-        mName = name;
-        mEmail = email;
+        mAvatar = avatar;
         mTextDate = textDate;
     }
 
@@ -45,12 +46,12 @@ public class Author {
         mEmail = email;
     }
 
-    public Date getDate() {
-        return mDate;
+    public String getAvatarUrl() {
+        return mAvatar;
     }
 
-    public void setDate(Date date) {
-        mDate = date;
+    public void setAvatarUrl(String avatar) {
+        mAvatar = avatar;
     }
 
     public String getTextDate() {
@@ -59,5 +60,29 @@ public class Author {
 
     public void setTextDate(String textDate) {
         mTextDate = textDate;
+    }
+
+    public String getFollowersUrl() {
+        return mFollowersUrl;
+    }
+
+    public void setFollowersUrl(String followersUrl) {
+        this.mFollowersUrl = followersUrl;
+    }
+
+    public String getFollowingUrl() {
+        return mFollowingUrl;
+    }
+
+    public void setFollowingUrl(String followingUrl) {
+        mFollowingUrl = followingUrl;
+    }
+
+    public String getStarredUrl() {
+        return mStarredUrl;
+    }
+
+    public void setStarredUrl(String starredUrl) {
+        mStarredUrl = starredUrl;
     }
 }

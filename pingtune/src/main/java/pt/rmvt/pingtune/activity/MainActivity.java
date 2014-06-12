@@ -6,6 +6,7 @@
  */
 package pt.rmvt.pingtune.activity;
 
+import java.util.List;
 import java.util.Locale;
 
 import android.database.Cursor;
@@ -219,10 +220,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         CommitRequest request = new CommitRequest();
         requestManager.executeRequest(
                 request,
-                new PingTuneRequest.PingTuneResponseListener<Commit>() {
+                new PingTuneRequest.PingTuneResponseListener<List<Commit>>() {
                     @Override
-                    public void onResponse(Commit obj) {
-                        Log.d(LOG_TAG,"RECEIVED RESPONSE");
+                    public void onResponse(List<Commit> list) {
+                        Log.d(LOG_TAG,"RECEIVED RESPONSE: "+list.size());
                     }
                 },
                 new PingTuneRequest.PingTuneErrorListener() {

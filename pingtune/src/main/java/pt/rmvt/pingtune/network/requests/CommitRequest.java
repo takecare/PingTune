@@ -15,12 +15,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.network.NetworkInfo;
 import pt.rmvt.pingtune.network.parser.CommitParser;
 import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
-public class CommitRequest extends PingTuneRequest<Commit,JSONArray> {
+public class CommitRequest extends PingTuneRequest<List<Commit>,JSONArray> {
 
     private static final String COMMIT_REQUEST_API_URL =
             NetworkInfo.GITHUB_API_ENDPOINT + String.format(
@@ -32,14 +34,14 @@ public class CommitRequest extends PingTuneRequest<Commit,JSONArray> {
         this(new CommitParser());
     }
 
-    public CommitRequest(PingTuneParser<Commit,JSONArray> parser) {
+    public CommitRequest(PingTuneParser<List<Commit>,JSONArray> parser) {
         super(parser);
         mJsonRequest = new JsonArrayRequest(
                 COMMIT_REQUEST_API_URL,
                 new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONArray jsonObject) {
-                        mResposeListener.onResponse(mParser.parse(jsonObject));
+                    public void onResponse(JSONArray jsonArray) {
+                        mResposeListener.onResponse(mParser.parse(jsonArray));
                     }
                 },
                 new Response.ErrorListener() {

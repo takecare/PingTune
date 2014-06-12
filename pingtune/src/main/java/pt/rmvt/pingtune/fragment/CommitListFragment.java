@@ -159,7 +159,13 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
     // HELPER METHODS
     private void update(List<Author> authors) {
         mAuthorAdapter.clear();
-        mAuthorAdapter.addAll(authors); // FIXME
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            mAuthorAdapter.addAll(authors);
+        } else {
+            for (Author author : authors) {
+                mAuthorAdapter.add(author);
+            }
+        }
         mAuthorAdapter.notifyDataSetChanged();
     }
 

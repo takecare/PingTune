@@ -38,7 +38,8 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
     public void startQuery(Uri uri, String[] projection, String selection, String[] selectionArgs,
                             String orderBy, IDataAccessObject.IReadListener readListener) {
         String cookie = getCookie();
-        mDAOListeners.put(cookie,readListener);
+        if (readListener != null)
+            mDAOListeners.put(cookie,readListener);
         super.startQuery(
                 QUERY_TOKEN,
                 cookie,
@@ -52,21 +53,24 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
     public void startInsert(Uri uri, ContentValues initialValues,
                             IDataAccessObject.ICreateListener createListener) {
         String cookie = getCookie();
-        mDAOListeners.put(cookie,createListener);
+        if (createListener != null)
+            mDAOListeners.put(cookie,createListener);
         super.startInsert(INSERT_TOKEN,cookie,uri,initialValues);
     }
 
     public void startUpdate(Uri uri, ContentValues values, String selection, String[] selectionArgs,
                             IDataAccessObject.IUpdateListener updateListener) {
         String cookie = getCookie();
-        mDAOListeners.put(cookie,updateListener);
+        if (updateListener != null)
+            mDAOListeners.put(cookie,updateListener);
         super.startUpdate(UPDATE_TOKEN,cookie,uri,values,selection,selectionArgs);
     }
 
     public void startDelete(Uri uri, String selection, String[] selectionArgs,
                             IDataAccessObject.IDeleteListener deleteListener) {
         String cookie = getCookie();
-        mDAOListeners.put(cookie,deleteListener);
+        if (deleteListener != null)
+            mDAOListeners.put(cookie,deleteListener);
         super.startDelete(DELETE_TOKEN,cookie,uri,selection,selectionArgs);
     }
 
@@ -80,32 +84,40 @@ public class PingTuneAsyncQueryHandler extends AsyncQueryHandler {
     protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
         IDataAccessObject.IReadListener listener =
                 (IDataAccessObject.IReadListener) mDAOListeners.get(cookie);
-        listener.onReadFinished(cursor);
-        mDAOListeners.remove(cookie);
+        if (listener != null) {
+            listener.onReadFinished(cursor);
+            mDAOListeners.remove(cookie);
+        }
     }
 
     @Override
     protected void onInsertComplete(int token, Object cookie, Uri uri) {
         IDataAccessObject.ICreateListener listener =
                 (IDataAccessObject.ICreateListener) mDAOListeners.get(cookie);
-        listener.onCreateFinished(uri.getLastPathSegment());
-        mDAOListeners.remove(cookie);
+        if (listener != null) {
+            listener.onCreateFinished(uri.getLastPathSegment());
+            mDAOListeners.remove(cookie);
+        }
     }
 
     @Override
     protected void onUpdateComplete(int token, Object cookie, int result) {
         IDataAccessObject.IUpdateListener listener =
                 (IDataAccessObject.IUpdateListener) mDAOListeners.get(cookie);
-        listener.onUpdateFinished(result);
-        mDAOListeners.remove(cookie);
+        if (listener != null) {
+            listener.onUpdateFinished(result);
+            mDAOListeners.remove(cookie);
+        }
     }
 
     @Override
     protected void onDeleteComplete(int token, Object cookie, int result) {
         IDataAccessObject.IDeleteListener listener =
                 (IDataAccessObject.IDeleteListener) mDAOListeners.get(cookie);
-        listener.onDeleteFinished(result);
-        mDAOListeners.remove(cookie);
+        if (listener != null) {
+            listener.onDeleteFinished(result);
+            mDAOListeners.remove(cookie);
+        }
     }
 
 }

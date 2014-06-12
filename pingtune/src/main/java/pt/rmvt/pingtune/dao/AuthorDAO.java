@@ -25,7 +25,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Author obj) {
-        return null;
+        return null; // TODO
     }
 
     @Override
@@ -39,7 +39,7 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public Author read(ContentResolver resolver, Long key) {
-        return null;
+        return null; // TODO
     }
 
     @Override
@@ -68,22 +68,22 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public int update(ContentResolver resolver, Author obj) {
-        return 0;
+        return 0; // TODO
     }
 
     @Override
     public void update(Author obj, IUpdateListener updateListener) {
-
+        // TODO
     }
 
     @Override @Deprecated
     public int delete(ContentResolver resolver, Long key) {
-        return 0;
+        return 0; // TODO
     }
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-
+        // TODO
     }
 
 
@@ -92,8 +92,11 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
         ContentValues values = new ContentValues();
         values.put(AuthorColumns.NAME,obj.getName());
         values.put(AuthorColumns.EMAIL,obj.getEmail());
-        if (obj.getTextDate() != null)
-            values.put(AuthorColumns.DATE,obj.getTextDate());
+        values.put(AuthorColumns.DATE,obj.getTextDate());
+        values.put(AuthorColumns.AVATARURL,obj.getAvatarUrl());
+        values.put(AuthorColumns.STARREDURL,obj.getStarredUrl());
+        values.put(AuthorColumns.FOLLOWINGURL,obj.getFollowingUrl());
+        values.put(AuthorColumns.FOLLOWERSURL,obj.getFollowersUrl());
         return values;
     }
 

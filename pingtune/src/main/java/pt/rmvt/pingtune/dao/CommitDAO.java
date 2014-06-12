@@ -85,17 +85,17 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override
     public void update(Commit obj, IUpdateListener updateListener) {
-
+        // TODO
     }
 
     @Override @Deprecated
     public int delete(ContentResolver resolver, Long key) {
-        return 0;
+        return 0; // TODO
     }
 
     @Override
     public void delete(Long key, IDeleteListener deleteListener) {
-
+        // TODO
     }
 
     @Override

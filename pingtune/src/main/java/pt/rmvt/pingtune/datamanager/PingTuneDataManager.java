@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import pt.rmvt.pingtune.bus.PingTuneBus;
+import pt.rmvt.pingtune.dao.AuthorDAO;
+import pt.rmvt.pingtune.dao.CommitDAO;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.network.PingTuneRequestManager;
@@ -95,8 +97,20 @@ public class PingTuneDataManager {
         );
     }
 
-    private void fetchCommitsFromStorage() {
+    private void fetchCommitsFromStorage(Context context) {
+        
+    }
 
+    private void persistCommitsIntoStorage(Context context,
+                                           HashMap<Author,List<Commit>> commitsByAuthor) {
+        AuthorDAO authorDAO = new AuthorDAO(context.getContentResolver());
+        CommitDAO commitDAO = new CommitDAO(context.getContentResolver());
+        for (Author author : commitsByAuthor.keySet()) {
+            authorDAO.create(author,null);
+            for (Commit commit : commitsByAuthor.get(author)) {
+                commitDAO.create(commit,null);
+            }
+        }
     }
 
     // HELPER METHODS

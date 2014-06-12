@@ -8,6 +8,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- menu actions -->
+    <string name="action_refresh">Refresh</string>
+
     <!-- fragment titles -->
     <string name="commit_list_fragment_title">Commit List</string>
     <string name="about_fragment_title">About</string>
@@ -27,5 +30,6 @@
 
     <!-- info/messages -->
     <string name="no_connectivity_info">No network connectivity:\nwill attempt to load data from local storage.</string>
+    <string name="refresh_in_progress">Refresh already in progress.</string>
 
 </resources>

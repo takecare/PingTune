@@ -8,9 +8,9 @@ package pt.rmvt.pingtune.network.parser;
 
 import org.json.JSONArray;
 
-public class FollowingCardinalityParser extends PingTuneParser<Integer,JSONArray> {
+public class CardinalityParser extends PingTuneParser<Integer,JSONArray> {
 
-    public static final String LOG_TAG = "FollowingCardinalityParser";
+    public static final String LOG_TAG = "CardinalityParser";
 
     @Override
     public Integer parse(JSONArray response) {

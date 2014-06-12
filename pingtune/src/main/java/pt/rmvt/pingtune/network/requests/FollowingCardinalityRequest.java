@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 
+import pt.rmvt.pingtune.network.parser.CardinalityParser;
 import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
 public class FollowingCardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
@@ -21,6 +22,7 @@ public class FollowingCardinalityRequest extends PingTuneRequest<Integer,JSONArr
     private static String sFOLLOWING_REQUEST_API_URL;
 
     public FollowingCardinalityRequest(String url) {
+        this(new CardinalityParser());
         sFOLLOWING_REQUEST_API_URL = cleanUpUrl(url);
     }
 

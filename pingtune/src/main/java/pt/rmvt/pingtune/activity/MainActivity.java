@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
-        //s§etSupportProgressBarVisibility(true);
+        //setSupportProgressBarVisibility(true);
 
         mViewPager.setOnPageChangeListener(this);
 
@@ -111,25 +111,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onPause() {
         super.onPause();
         Crouton.cancelAllCroutons();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     // actionbar tab listener
@@ -160,5 +141,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onPingTuneCrouton(PingTuneCrouton crouton) {
         Crouton.makeText(this, crouton.getMessage(), crouton.getStyle())
                 .show();
+        setSupportProgressBarIndeterminateVisibility(false);
     }
 }

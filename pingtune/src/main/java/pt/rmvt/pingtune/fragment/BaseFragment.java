@@ -7,6 +7,7 @@
 package pt.rmvt.pingtune.fragment;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -15,4 +16,8 @@ public abstract class BaseFragment extends Fragment {
     public static final String KEY_ARGUMENT_FRAGMENT_TITLE = "KEY_ARGUMENT_FRAGMENT_TITLE";
 
     public abstract CharSequence getTitle();
+
+    public void setSupportProgressBarIndeterminateVisibility(boolean visible) {
+        ((ActionBarActivity)getActivity()).setSupportProgressBarIndeterminateVisibility(visible);
+    }
 }

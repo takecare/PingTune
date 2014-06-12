@@ -6,11 +6,15 @@
  */
 package pt.rmvt.pingtune.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,10 +28,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.activity.DetailActivity;
 import pt.rmvt.pingtune.adapter.AuthorAdapter;
 import pt.rmvt.pingtune.bus.PingTuneBus;
+import pt.rmvt.pingtune.crouton.PingTuneCrouton;
+import pt.rmvt.pingtune.datamanager.PingTuneDataManager;
 import pt.rmvt.pingtune.model.Author;
 import pt.rmvt.pingtune.model.Commit;
 
@@ -40,6 +47,7 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
     @InjectView(R.id.fragmentCommitListListView)
     public ListView mListView;
     private AuthorAdapter mAuthorAdapter;
+    private boolean mRefreshInProgress;
 
     public CommitListFragment() {}
 
@@ -54,6 +62,13 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
         fragment.setArguments(arguments);
 
         return fragment;
+    }
+
+    @Override
+    public void onAttach (Activity activity) {
+        super.onAttach(activity);
+        mRefreshInProgress = true;
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -102,6 +117,33 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
         outState.putParcelableArrayList(ARRAY_LIST_AUTHOR_PARCELABLE_KEY,authors);
     }
 
+    // MENU
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+
+        getActivity().getMenuInflater().inflate(R.menu.menu_commit_list_fragment,menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                if (!mRefreshInProgress) {
+                    mRefreshInProgress = true;
+                    setSupportProgressBarIndeterminateVisibility(true);
+                    PingTuneDataManager.getInstance().update(getActivity());
+                } else {
+                    PingTuneBus.getBusInstance().post(new PingTuneCrouton(
+                            Style.INFO,
+                            getString(R.string.refresh_in_progress)));
+                }
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    // BASE FRAGMENT
     @Override
     public CharSequence getTitle() {
         return getArguments().getString(KEY_ARGUMENT_FRAGMENT_TITLE);
@@ -109,15 +151,19 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
 
     @Subscribe
     public void update(HashMap<Author, List<Commit>> commitsByAuthor) {
+        mRefreshInProgress = false;
+        setSupportProgressBarIndeterminateVisibility(false);
         update(new ArrayList<Author>(commitsByAuthor.keySet()));
     }
 
+    // HELPER METHODS
     private void update(List<Author> authors) {
         mAuthorAdapter.clear();
         mAuthorAdapter.addAll(authors); // FIXME
         mAuthorAdapter.notifyDataSetChanged();
     }
 
+    // LIST VIEW CLICK LISTENER
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Author clickedAuthor = mAuthorAdapter.getItem(position);

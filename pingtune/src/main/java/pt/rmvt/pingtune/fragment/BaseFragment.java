@@ -18,6 +18,9 @@ public abstract class BaseFragment extends Fragment {
     public abstract CharSequence getTitle();
 
     public void setSupportProgressBarIndeterminateVisibility(boolean visible) {
-        ((ActionBarActivity)getActivity()).setSupportProgressBarIndeterminateVisibility(visible);
+        ActionBarActivity activity = (ActionBarActivity)getActivity();
+        if (activity != null) { // check in case of activity recreated
+            activity.setSupportProgressBarIndeterminateVisibility(visible);
+        }
     }
 }

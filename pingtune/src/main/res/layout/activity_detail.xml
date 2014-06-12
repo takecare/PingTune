@@ -51,7 +51,30 @@
         android:id="@+id/activityDetailCardinalityLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_below="@+id/activityDetailAuthorRelativeLayout"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <include
+            android:id="@+id/activityDetailFollowersLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/cardinality" />
+
+        <include
+            android:id="@+id/activityDetailFollowingLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/cardinality" />
+
+        <include
+            android:id="@+id/activityDetailStarredLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/cardinality" />
 
     </LinearLayout>
 

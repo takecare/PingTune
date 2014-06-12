@@ -2,12 +2,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <TextView
-        android:id="@+id/rowAuthorCommitMessage"
+        android:id="@+id/cardinalityTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/author_row_text_margin"
@@ -16,7 +17,7 @@
         tools:text="@string/app_name" />
 
     <TextView
-        android:id="@+id/rowAuthorCommitDate"
+        android:id="@+id/cardinalityValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/author_row_text_margin"

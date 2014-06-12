@@ -24,7 +24,7 @@ public class DetailFragment extends BaseFragment {
 
         CommitListFragment fragment = new CommitListFragment();
 
-        String title = resources.getString(R.string.detailFragmentTitle);
+        String title = resources.getString(R.string.detail_fragment_title);
 
         Bundle arguments = new Bundle();
         arguments.putString(KEY_ARGUMENT_FRAGMENT_TITLE,title);

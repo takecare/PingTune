@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
@@ -21,26 +22,63 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.network.PingTuneRequestManager;
+import pt.rmvt.pingtune.network.requests.CardinalityRequest;
+import pt.rmvt.pingtune.network.requests.PingTuneRequest;
 
-public class DetailActivity extends ActionBarActivity {
+public class DetailActivity extends ActionBarActivity implements PingTuneRequest.PingTuneErrorListener {
 
     public static final String LOG_TAG = "DetailActivity";
 
     private Author mAuthor;
 
-    private NetworkImageView mAvatarNetworkImageView;
-    //@InjectView(R.id.)
+    private PingTuneRequestManager mRequestManager;
+    private CardinalityRequest mFollowersRequest;
+    private CardinalityRequest mFollowingRequest;
+    private CardinalityRequest mStarredRequest;
+
+    @InjectView(R.id.activityDetailNameTextView)
     public TextView mNameTextView;
+    @InjectView(R.id.activityDetailDataTextView)
     public TextView mDataTextView;
+    public TextView mFollowersTitleTextView;
+    public TextView mFollowersValueTextView;
+    public TextView mFollowingTitleTextView;
+    public TextView mFollowingValueTextView;
+    public TextView mStarredTitleTextView;
+    public TextView mStarredValueTextView;
+    private NetworkImageView mAvatarNetworkImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mRequestManager = new PingTuneRequestManager();
+
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
+
+        mAvatarNetworkImageView = ButterKnife.findById(this,R.id.activityDetailAvatarImageView);
+        mFollowersTitleTextView = ButterKnife.findById(
+                ButterKnife.findById(this,R.id.activityDetailFollowersLayout),
+                R.id.cardinalityTitleTextView);
+        mFollowersValueTextView = ButterKnife.findById(
+                ButterKnife.findById(this,R.id.activityDetailFollowersLayout),
+                R.id.cardinalityValueTextView);
+        mFollowingTitleTextView = ButterKnife.findById(
+                ButterKnife.findById(this,R.id.activityDetailFollowingLayout),
+                R.id.cardinalityTitleTextView);
+        mFollowingValueTextView = ButterKnife.findById(
+                ButterKnife.findById(this,R.id.activityDetailFollowingLayout),
+                R.id.cardinalityValueTextView);
+        mStarredTitleTextView = ButterKnife.findById(
+                ButterKnife.findById(this,R.id.activityDetailStarredLayout),
+                R.id.cardinalityTitleTextView);
+        mStarredValueTextView = ButterKnife.findById(
+                ButterKnife.findById(this,R.id.activityDetailStarredLayout),
+                R.id.cardinalityValueTextView);
 
         // actionbar config
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -48,6 +86,55 @@ public class DetailActivity extends ActionBarActivity {
 
         if (getIntent() != null) {
             mAuthor = getIntent().getParcelableExtra(Author.AUTHOR_PARCELABLE_KEY);
+            mNameTextView.setText(mAuthor.getName());
+            mDataTextView.setText(mAuthor.getEmail());
+            mAvatarNetworkImageView.setImageUrl(
+                    mAuthor.getAvatarUrl(),
+                    PingTuneRequestManager.getImageLoaderInstance());
+
+            mFollowersTitleTextView.setText(getResources().getString(R.string.cardinality_followers_title));
+            mFollowingTitleTextView.setText(getResources().getString(R.string.cardinality_following_title));
+            mStarredTitleTextView.setText(getResources().getString(R.string.cardinality_starred_title));
+
+            if (mAuthor.getFollowersUrl() != null) {
+                mFollowersRequest = new CardinalityRequest(mAuthor.getFollowersUrl());
+                mFollowersRequest.setErrorListener(this);
+                mFollowersRequest.setResposeListener(new PingTuneRequest.PingTuneResponseListener<Integer>() {
+                    @Override
+                    public void onResponse(Integer obj) {
+                        if (mFollowersValueTextView != null)
+                            mFollowersValueTextView.setText(String.valueOf(obj));
+                    }
+                });
+                mRequestManager.executeRequest(mFollowersRequest);
+            }
+
+            if (mAuthor.getFollowingUrl() != null) {
+                mFollowingRequest = new CardinalityRequest(mAuthor.getFollowingUrl());
+                mFollowingRequest.setErrorListener(this);
+                mFollowingRequest.setResposeListener(new PingTuneRequest.PingTuneResponseListener<Integer>() {
+                    @Override
+                    public void onResponse(Integer obj) {
+                        if (mFollowingValueTextView != null)
+                            mFollowingValueTextView.setText(String.valueOf(obj));
+                    }
+                });
+                mRequestManager.executeRequest(mFollowingRequest);
+            }
+
+            if (mAuthor.getStarredUrl() != null) {
+                mStarredRequest = new CardinalityRequest(mAuthor.getStarredUrl());
+                mStarredRequest.setErrorListener(this);
+                mStarredRequest.setResposeListener(new PingTuneRequest.PingTuneResponseListener<Integer>() {
+                    @Override
+                    public void onResponse(Integer obj) {
+                        if (mStarredValueTextView != null)
+                            mStarredValueTextView.setText(String.valueOf(obj));
+                    }
+                });
+                mRequestManager.executeRequest(mStarredRequest);
+            }
+
         } else {
             // TODO ERROR!
         }
@@ -64,6 +151,14 @@ public class DetailActivity extends ActionBarActivity {
     public void onPause() {
         super.onPause();
 
+        if (mFollowersRequest != null)
+            mRequestManager.cancelRequest(mFollowersRequest);
+
+        if (mFollowingRequest != null)
+            mRequestManager.cancelRequest(mFollowingRequest);
+
+        if (mStarredRequest != null)
+            mRequestManager.cancelRequest(mStarredRequest);
     }
 
     //
@@ -77,4 +172,9 @@ public class DetailActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onError(String errorMessage, int statusCode) {
+        // TODO error
+        Log.e(LOG_TAG,"ERROR");
+    }
 }

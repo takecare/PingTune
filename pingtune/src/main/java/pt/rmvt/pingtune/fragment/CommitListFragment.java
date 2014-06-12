@@ -45,7 +45,7 @@ public class CommitListFragment extends BaseFragment implements AdapterView.OnIt
 
         CommitListFragment fragment = new CommitListFragment();
 
-        String title = resources.getString(R.string.commitListFragmentTitle);
+        String title = resources.getString(R.string.commit_list_fragment_title);
 
         Bundle arguments = new Bundle();
         arguments.putString(KEY_ARGUMENT_FRAGMENT_TITLE,title);

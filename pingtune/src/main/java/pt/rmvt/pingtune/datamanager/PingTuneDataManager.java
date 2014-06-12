@@ -53,7 +53,6 @@ public class PingTuneDataManager {
 
     public void setup(Context context) {
         mCommitsByAuthor = new HashMap<Author, List<Commit>>();
-
         mRequestManager = new PingTuneRequestManager();
         mRequestManager.setup(context);
     }

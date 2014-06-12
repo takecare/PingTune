@@ -69,6 +69,19 @@ public abstract class PingTuneRequest<T,R> {
         mParser = parser;
     }
 
+    public String getTag() {
+        return LOG_TAG + "_" + hashCode();
+    }
+
+    // HASHCODE
+    @Override
+    public int hashCode() {
+        int result = mJsonRequest != null ? mJsonRequest.hashCode() : 0;
+        result = 31 * result + (mResposeListener != null ? mResposeListener.hashCode() : 0);
+        result = 31 * result + (mErrorListener != null ? mErrorListener.hashCode() : 0);
+        result = 31 * result + (mParser != null ? mParser.hashCode() : 0);
+        return result;
+    }
 
     // LISTENERS
     public static interface PingTuneResponseListener<T> {

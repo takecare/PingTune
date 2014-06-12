@@ -25,7 +25,7 @@ public class AboutFragment extends BaseFragment {
 
         AboutFragment fragment = new AboutFragment();
 
-        String title = resources.getString(R.string.aboutFragmentTitle);
+        String title = resources.getString(R.string.about_fragment_title);
 
         Bundle arguments = new Bundle();
         arguments.putString(KEY_ARGUMENT_FRAGMENT_TITLE,title);

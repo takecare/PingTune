@@ -8,10 +8,16 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="commitListFragmentTitle">Commit List</string>
-    <string name="aboutFragmentTitle">About</string>
-    <string name="detailFragmentTitle">Detail</string>
+    <!-- fragment titles -->
+    <string name="commit_list_fragment_title">Commit List</string>
+    <string name="about_fragment_title">About</string>
+    <string name="detail_fragment_title">Detail</string>
 
     <string name="row_author_image_view">Avatar</string>
+
+    <!-- cardinality titles -->
+    <string name="cardinality_followers_title">Followers</string>
+    <string name="cardinality_following_title">Following</string>
+    <string name="cardinality_starred_title">Starred</string>
 
 </resources>

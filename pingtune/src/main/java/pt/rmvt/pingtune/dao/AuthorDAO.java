@@ -26,7 +26,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Author obj) {
-        return null; // TODO
+        // TODO sync. method not implemented due to time constraint
+        return null;
     }
 
     @Override
@@ -41,7 +42,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public Author read(ContentResolver resolver, Long key) {
-        return null; // TODO
+        // TODO sync. method not implemented due to time constraint
+        return null;
     }
 
     @Override
@@ -82,7 +84,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public int update(ContentResolver resolver, Author obj) {
-        return 0; // TODO
+        // TODO sync. method not implemented due to time constraint
+        return 0;
     }
 
     @Override
@@ -99,7 +102,8 @@ public class AuthorDAO implements IDataAccessObject<Author,Long> {
 
     @Override @Deprecated
     public int delete(ContentResolver resolver, Long key) {
-        return 0; // TODO
+        // TODO sync. method not implemented due to time constraint
+        return 0;
     }
 
     @Override

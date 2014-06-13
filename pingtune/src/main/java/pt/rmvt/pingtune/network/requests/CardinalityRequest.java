@@ -14,7 +14,6 @@ import org.json.JSONArray;
 
 import pt.rmvt.pingtune.BuildConfig;
 import pt.rmvt.pingtune.network.parser.CardinalityParser;
-import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
 public class CardinalityRequest extends PingTuneRequest<Integer,JSONArray> {
 

@@ -6,21 +6,17 @@
  */
 package pt.rmvt.pingtune.network.requests;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
 
 import pt.rmvt.pingtune.model.Commit;
 import pt.rmvt.pingtune.network.NetworkInfo;
 import pt.rmvt.pingtune.network.parser.CommitParser;
-import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
 public class CommitRequest extends PingTuneRequest<List<Commit>,JSONArray> {
 

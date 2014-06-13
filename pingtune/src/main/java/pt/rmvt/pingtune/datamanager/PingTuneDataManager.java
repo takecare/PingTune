@@ -12,15 +12,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.android.volley.toolbox.ImageLoader;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.bus.PingTuneBus;
@@ -107,7 +103,7 @@ public class PingTuneDataManager {
                         PingTuneBus.getBusInstance().post(new PingTuneCrouton(
                                 Style.ALERT,
                                 context.getResources().getString(R.string.datamanager_fetch_commits_error)));
-                        Log.e(LOG_TAG, statusCode+": "+errorMessage);
+                        Log.e(LOG_TAG, statusCode + ": " + errorMessage);
                     }
                 }
         );
@@ -126,10 +122,14 @@ public class PingTuneDataManager {
                                            HashMap<Author,List<Commit>> commitsByAuthor) {
         AuthorDAO authorDAO = new AuthorDAO(context.getContentResolver());
         CommitDAO commitDAO = new CommitDAO(context.getContentResolver());
+        List<Commit> commits;
         for (Author author : commitsByAuthor.keySet()) {
             authorDAO.create(author,null);
-            for (Commit commit : commitsByAuthor.get(author)) {
-                commitDAO.create(commit,null);
+            commits = commitsByAuthor.get(author);
+            if (commits != null && commits.size() > 0) {
+                for (Commit commit : commits) {
+                    commitDAO.create(commit, null);
+                }
             }
         }
     }

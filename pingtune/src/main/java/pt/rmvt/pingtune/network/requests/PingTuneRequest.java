@@ -8,9 +8,7 @@ package pt.rmvt.pingtune.network.requests;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
-import pt.rmvt.pingtune.network.PingTuneRequestManager;
 import pt.rmvt.pingtune.network.parser.PingTuneParser;
 
 // T: object/model expected on response

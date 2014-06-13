@@ -92,8 +92,9 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
 
         PingTuneBus.getBusInstance().register(this);
 
-        if (getIntent() != null) {
-            mAuthor = getIntent().getParcelableExtra(Author.AUTHOR_PARCELABLE_KEY);
+        if (getIntent() != null &&
+                (mAuthor=getIntent().getParcelableExtra(Author.AUTHOR_PARCELABLE_KEY)) != null) {
+
             mNameTextView.setText(mAuthor.getName());
             mDataTextView.setText(mAuthor.getEmail());
             mAvatarNetworkImageView.setImageUrl(

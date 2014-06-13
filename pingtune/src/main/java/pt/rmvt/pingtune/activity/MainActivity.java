@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
-        //setSupportProgressBarVisibility(true);
 
         mViewPager.setOnPageChangeListener(this);
 

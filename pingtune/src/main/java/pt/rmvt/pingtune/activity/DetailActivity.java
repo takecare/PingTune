@@ -37,8 +37,11 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
 
     private PingTuneRequestManager mRequestManager;
     private CardinalityRequest mFollowersRequest;
+    private boolean mFinishedFollowersRequest;
     private CardinalityRequest mFollowingRequest;
+    private boolean mFinishedFollowingRequest;
     private CardinalityRequest mStarredRequest;
+    private boolean mFinishedStarredRequest;
 
     @InjectView(R.id.activityDetailNameTextView)
     public TextView mNameTextView;
@@ -104,11 +107,15 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
             mStarredTitleTextView.setText(getResources().getString(R.string.cardinality_starred_title));
 
             if (mAuthor.getFollowersUrl() != null) {
+                setSupportProgressBarIndeterminateVisibility(true);
                 mFollowersRequest = new CardinalityRequest(mAuthor.getFollowersUrl());
                 mFollowersRequest.setErrorListener(this);
                 mFollowersRequest.setResposeListener(new PingTuneRequest.PingTuneResponseListener<Integer>() {
                     @Override
                     public void onResponse(Integer obj) {
+                        mFinishedFollowersRequest = true;
+                        setSupportProgressBarIndeterminateVisibility(!(mFinishedFollowingRequest
+                                && mFinishedStarredRequest));
                         if (mFollowersValueTextView != null)
                             mFollowersValueTextView.setText(String.valueOf(obj));
                     }
@@ -117,11 +124,15 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
             }
 
             if (mAuthor.getFollowingUrl() != null) {
+                setSupportProgressBarIndeterminateVisibility(true);
                 mFollowingRequest = new CardinalityRequest(mAuthor.getFollowingUrl());
                 mFollowingRequest.setErrorListener(this);
                 mFollowingRequest.setResposeListener(new PingTuneRequest.PingTuneResponseListener<Integer>() {
                     @Override
                     public void onResponse(Integer obj) {
+                        mFinishedFollowingRequest = true;
+                        setSupportProgressBarIndeterminateVisibility(!(mFinishedFollowersRequest
+                                && mFinishedStarredRequest));
                         if (mFollowingValueTextView != null)
                             mFollowingValueTextView.setText(String.valueOf(obj));
                     }
@@ -130,11 +141,15 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
             }
 
             if (mAuthor.getStarredUrl() != null) {
+                setSupportProgressBarIndeterminateVisibility(true);
                 mStarredRequest = new CardinalityRequest(mAuthor.getStarredUrl());
                 mStarredRequest.setErrorListener(this);
                 mStarredRequest.setResposeListener(new PingTuneRequest.PingTuneResponseListener<Integer>() {
                     @Override
                     public void onResponse(Integer obj) {
+                        mFinishedStarredRequest = true;
+                        setSupportProgressBarIndeterminateVisibility(!(mFinishedFollowersRequest
+                                && mFinishedFollowingRequest));
                         if (mStarredValueTextView != null)
                             mStarredValueTextView.setText(String.valueOf(obj));
                     }
@@ -146,6 +161,7 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
             PingTuneBus.getBusInstance().post(new PingTuneCrouton(
                     Style.ALERT,
                     getResources().getString(R.string.detail_activity_bundle_error)));
+            setSupportProgressBarVisibility(false);
         }
 
     }
@@ -171,7 +187,7 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
             mRequestManager.cancelRequest(mStarredRequest);
     }
 
-    //
+    // MENU
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -188,7 +204,9 @@ public class DetailActivity extends ActionBarActivity implements PingTuneRequest
                 Style.ALERT,
                 getResources().getString(R.string.detail_activity_cardinality_error)));
         Log.e(LOG_TAG, statusCode+": "+errorMessage);
+        setSupportProgressBarIndeterminateVisibility(false);
     }
+
 
     @Subscribe
     public void onPingTuneCrouton(PingTuneCrouton crouton) {

@@ -103,7 +103,7 @@ public class PingTuneDataManager {
                         PingTuneBus.getBusInstance().post(new PingTuneCrouton(
                                 Style.ALERT,
                                 context.getResources().getString(R.string.datamanager_fetch_commits_error)));
-                        Log.e(LOG_TAG, statusCode+": "+errorMessage);
+                        Log.e(LOG_TAG, statusCode + ": " + errorMessage);
                     }
                 }
         );
@@ -122,10 +122,14 @@ public class PingTuneDataManager {
                                            HashMap<Author,List<Commit>> commitsByAuthor) {
         AuthorDAO authorDAO = new AuthorDAO(context.getContentResolver());
         CommitDAO commitDAO = new CommitDAO(context.getContentResolver());
+        List<Commit> commits;
         for (Author author : commitsByAuthor.keySet()) {
             authorDAO.create(author,null);
-            for (Commit commit : commitsByAuthor.get(author)) {
-                commitDAO.create(commit,null);
+            commits = commitsByAuthor.get(author);
+            if (commits != null && commits.size() > 0) {
+                for (Commit commit : commits) {
+                    commitDAO.create(commit, null);
+                }
             }
         }
     }

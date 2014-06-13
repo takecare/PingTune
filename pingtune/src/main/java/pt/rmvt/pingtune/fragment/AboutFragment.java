@@ -37,7 +37,6 @@ public class AboutFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-        // TODO set text
         return view;
     }
 

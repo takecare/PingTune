@@ -3,18 +3,15 @@
 
     <string name="app_name">PingTune</string>
 
-    <string name="detail_title">Detail</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
     <!-- menu actions -->
     <string name="action_refresh">Refresh</string>
 
     <!-- fragment titles -->
     <string name="commit_list_fragment_title">Commit List</string>
     <string name="about_fragment_title">About</string>
-    <string name="detail_fragment_title">Detail</string>
+
+    <!-- detail activity title -->
+    <string name="detail_activity_title">Detail</string>
 
     <string name="row_author_image_view">Avatar</string>
 
@@ -31,5 +28,41 @@
     <!-- info/messages -->
     <string name="no_connectivity_info">No network connectivity:\nwill attempt to load data from local storage.</string>
     <string name="refresh_in_progress">Refresh already in progress.</string>
+
+    <!-- about -->
+    <string name="about_message">
+        \t\tHello there!\n\n\n
+        This app was developed as a sample app with some features in mind:\n\n
+        \t1. Connect to the Github API;\n
+        \t2. Find the Ruby repository;\n
+        \t3. Find the most recent commits (At least 50);\n
+        \t4. Group the commits by author in a custom view; (screen A)\n
+        \t5. By tapping on the image it will push to another view controller/activity with more
+        details of the author (screen B).\n\n\n
+        Summing up, these goals were achieved as described:\n\n
+        \t1. A network "layer" was built, on top of google\'s volley, to fetch the data needed from
+        the github API. This layer includes request, parser and manager objects;\n
+        \t2. The repository, and respective owner names, are hardcoded into the app, but this can
+        be changed easily;\n
+        \t3. As the github API limits the objects (to 30) returned when GETing from
+        https://api.github.com/repos/user/repo/commits, two requests were chained in order to fetch
+        a greater number;\n
+        \t4. Commits are grouped, by author, after being retrieved from the API, and displayed on
+        a ListView, implementing the view-holder pattern;\n
+        \t5. By tapping on a row, a new activity is displayed, containing details of the author that
+        was selected.\n\n\n
+        Due to time constraints, there were features that could not be implemented, such as:\n\n
+        \t- a disk cache for the author\'s avatars;\n
+        \t- a custom action bar look;\n
+        \t- progress view on the distinct count values on the detail screen;\n
+        \t- more and better unit tests;\n
+        \t- ui automation tests;\n
+        \t- filter by author\'s name (search in the action bar);\n
+        \t- default avatar image from placekitten.com;\n
+        \t- continuous refresh;\n
+        \t- connectivity monitor to refresh as soon as network connectivity is available;\n
+        \t- etc.\n\n
+        \tIf you have any questions, please address them to rui@vazteixeira.org.
+    </string>
 
 </resources>

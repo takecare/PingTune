@@ -8,8 +8,6 @@ package pt.rmvt.pingtune.application;
 
 import android.app.Application;
 
-import pt.rmvt.pingtune.datamanager.PingTuneDataManager;
-
 public class PingTuneApplication extends Application {
 
     public static final String LOG_TAG = "PingTuneApplication";

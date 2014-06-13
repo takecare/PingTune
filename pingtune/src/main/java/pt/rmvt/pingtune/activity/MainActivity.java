@@ -6,58 +6,24 @@
  */
 package pt.rmvt.pingtune.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.bus.PingTuneBus;
 import pt.rmvt.pingtune.crouton.PingTuneCrouton;
-import pt.rmvt.pingtune.dao.AuthorDAO;
-import pt.rmvt.pingtune.dao.IDataAccessObject;
 import pt.rmvt.pingtune.datamanager.PingTuneDataManager;
 import pt.rmvt.pingtune.fragment.BaseFragment;
 import pt.rmvt.pingtune.fragment.PingTuneFragmentPagerAdapter;
-import pt.rmvt.pingtune.model.Author;
-import pt.rmvt.pingtune.model.Commit;
-import pt.rmvt.pingtune.network.PingTuneRequestManager;
-import pt.rmvt.pingtune.network.requests.CardinalityRequest;
-import pt.rmvt.pingtune.network.requests.CommitRequest;
-import pt.rmvt.pingtune.network.requests.PingTuneRequest;
-import pt.rmvt.pingtune.storage.provider.PingTuneAsyncQueryHandler;
-import pt.rmvt.pingtune.storage.provider.author.AuthorColumns;
-import pt.rmvt.pingtune.storage.provider.author.AuthorContentValues;
-import pt.rmvt.pingtune.storage.provider.author.AuthorSelection;
-import pt.rmvt.pingtune.storage.provider.commit.CommitColumns;
-import pt.rmvt.pingtune.storage.provider.commit.CommitContentValues;
-import pt.rmvt.pingtune.storage.provider.commit.CommitCursor;
-import pt.rmvt.pingtune.storage.provider.commit.CommitSelection;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
 

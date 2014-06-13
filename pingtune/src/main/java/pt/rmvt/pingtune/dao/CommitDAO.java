@@ -26,6 +26,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override @Deprecated
     public Long create(ContentResolver resolver, Commit obj) {
+        // TODO sync. method not implemented due to time constraint
         return null;
     }
 
@@ -41,6 +42,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override @Deprecated
     public Commit read(ContentResolver resolver, Long key) {
+        // TODO sync. method not implemented due to time constraint
         return null;
     }
 
@@ -95,6 +97,7 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override @Deprecated
     public int update(ContentResolver resolver, Commit obj) {
+        // TODO sync. method not implemented due to time constraint
         return 0;
     }
 
@@ -112,7 +115,8 @@ public class CommitDAO implements IDataAccessObject<Commit,Long> {
 
     @Override @Deprecated
     public int delete(ContentResolver resolver, Long key) {
-        return 0; // TODO
+        // TODO sync. method not implemented due to time constraint
+        return 0;
     }
 
     @Override

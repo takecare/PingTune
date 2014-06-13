@@ -44,4 +44,20 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(expected, actual);
     }
 
+    public void testCommitListPageTitle() throws Exception {
+        final CharSequence expected = getActivity().getResources()
+                .getString(R.string.commit_list_fragment_title);
+        final CharSequence actual = mViewPager.getAdapter()
+                .getPageTitle(PingTuneFragmentPagerAdapter.COMMIT_LIST_FRAGMENT_POS);
+        assertEquals(expected,actual);
+    }
+
+    public void testAboutPageTitle() throws Exception {
+        final CharSequence expected = getActivity().getResources()
+                .getString(R.string.about_fragment_title);
+        final CharSequence actual = mViewPager.getAdapter()
+                .getPageTitle(PingTuneFragmentPagerAdapter.ABOUT_FRAGMENT_POS);
+        assertEquals(expected,actual);
+    }
+
 }

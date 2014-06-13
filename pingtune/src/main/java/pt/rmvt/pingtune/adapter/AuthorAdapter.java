@@ -16,11 +16,13 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pt.rmvt.pingtune.R;
 import pt.rmvt.pingtune.model.Author;
+import pt.rmvt.pingtune.network.NetworkInfo;
 import pt.rmvt.pingtune.network.PingTuneRequestManager;
 
 public class AuthorAdapter extends ArrayAdapter<Author> {
@@ -51,6 +53,16 @@ public class AuthorAdapter extends ArrayAdapter<Author> {
             row.setTag(holder);
         } else {
             holder = (AuthorHolder) row.getTag();
+        }
+
+        if (getItem(position).getAvatarUrl() == null
+                || getItem(position).getAvatarUrl().length() == 0) {
+
+            int dimensionIndex = new Random().nextInt(NetworkInfo.PLACEKITTEN_DIMENSIONS.length);
+            getItem(position).setAvatarUrl(
+                    String.format(NetworkInfo.PLACEKITTEN_ENDPOINT+NetworkInfo.PLACEKITTEN_REQUEST_FORMAT,
+                            dimensionIndex,
+                            dimensionIndex));
         }
 
         holder.mImageView.setImageUrl(getItem(position).getAvatarUrl(), PingTuneRequestManager.getImageLoaderInstance());

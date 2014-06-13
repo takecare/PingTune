@@ -6,6 +6,10 @@
  */
 package pt.rmvt.pingtune.network;
 
+import android.content.Intent;
+
+import java.util.ArrayList;
+
 public class NetworkInfo {
 
     public static final String GITHUB_API_ENDPOINT = "https://api.github.com/";
@@ -15,4 +19,7 @@ public class NetworkInfo {
     public static final String GITHUB_RUBY_USER = "ruby";
     public static final String GITHUB_RUBY_REPO = "ruby";
 
+    public static final String PLACEKITTEN_ENDPOINT = "http://placekitten.com/";
+    public static final String PLACEKITTEN_REQUEST_FORMAT = "%d/%d";
+    public static final Integer[] PLACEKITTEN_DIMENSIONS = {100,125,150,200,225,250,275};
 }
